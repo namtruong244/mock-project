@@ -1,0 +1,13 @@
+{
+  "ecmaFeatures": {
+    "modules": true
+  },
+  "env": {
+  },
+  "plugins": ["import"],
+  "rules": {
+    "import/no-unresolved": [2],
+    "import/namespace": [2],
+    "no-undef": 2
+  }
+}
