@@ -18,16 +18,23 @@ import {
   Radio,
   InputLeftAddon,
   InputGroup,
+  Center,
+  Avatar,
+  AvatarBadge,
+  IconButton,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useSelector } from 'react-redux'
+import { SmallCloseIcon } from '@chakra-ui/icons'
 
 const LoginSchema = Yup.object().shape({
   phonenumber: Yup.string().max(20).required('Phone number is required'),
+  name: Yup.string().max(20).required('Your name is required'),
+  // password: Yup.string().max(20).required('Password is required'),
 })
 
-export default function LoginForm(props) {
+export default function RegisterForm(props) {
   const {
     register,
     handleSubmit,
@@ -46,10 +53,31 @@ export default function LoginForm(props) {
         {props.errorMsg && (
           <Alert status="error" mt={3}>
             <AlertIcon />
-            <AlertTitle mr={2}>Login Fail</AlertTitle>
+            <AlertTitle mr={2}>Register Fail</AlertTitle>
             <AlertDescription>{props.errorMsg}</AlertDescription>
           </Alert>
         )}
+        <FormControl id="userName">
+          <FormLabel>User Icon</FormLabel>
+          <Stack direction={['column', 'row']} spacing={6}>
+            <Center>
+              <Avatar size="xl" src="https://bit.ly/sage-adebayo">
+                <AvatarBadge
+                  as={IconButton}
+                  size="sm"
+                  rounded="full"
+                  top="-10px"
+                  colorScheme="red"
+                  aria-label="remove Image"
+                  icon={<SmallCloseIcon />}
+                />
+              </Avatar>
+            </Center>
+            {/* <Center w="full">
+              <Button w="full">Change Icon</Button>
+            </Center> */}
+          </Stack>
+        </FormControl>
         <FormControl
           mt={3}
           id="phonenumber"
@@ -67,9 +95,18 @@ export default function LoginForm(props) {
             />
           </InputGroup>
           <FormErrorMessage>{errors.phonenumber?.message}</FormErrorMessage>
+          <FormControl mt={3} id="name" isRequired isInvalid={errors.name}>
+            <FormLabel>Your name</FormLabel>
+            <Input
+              type="text"
+              placeholder={'Input your name here...'}
+              {...register('name')}
+            />
+            <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+          </FormControl>
         </FormControl>
         <FormControl mt={3}>
-          <FormLabel>Register with role:</FormLabel>
+          <FormLabel>Login with role:</FormLabel>
           <RadioGroup defaultValue="customer">
             <Stack spacing={10} direction="row">
               <Radio value="customer" colorScheme="pink">
@@ -96,7 +133,7 @@ export default function LoginForm(props) {
             type={'submit'}
             mt={3}
           >
-            Sign in
+            Login
           </Button>
         </Stack>
       </form>

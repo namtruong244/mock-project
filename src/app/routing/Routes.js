@@ -9,24 +9,7 @@ export function Routes() {
 
   return (
     <Switch>
-      {!isLoggedIn ? (
-        /*Render auth page when user at `/auth` and not authorized.*/
-        <PublicRoutes/>
-      ) : (
-        /*Otherwise redirect to root page (`/`)*/
-        <Redirect from='/login' to='/' />
-      )}
-
-      {/*<Route path='/error' component={ErrorsPage} />*/}
-      {/*<Route path='/logout' component={Logout} />*/}
-
-      {!isLoggedIn ? (
-        /*Redirect to `/auth` when user is not authorized*/
-        <Redirect to='/login' />
-      ) : (
-          <PrivateRoutes />
-      )}
+      <PublicRoutes />
     </Switch>
   )
-
 }
