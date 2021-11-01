@@ -6,31 +6,46 @@ const initialState = {
   isLoggedIn: false,
   currentUser: null,
   loading: false,
-  error: ''
+  error: '',
 }
 
 export const login = createAsyncThunk('auth/login', async (params, thunkAPI) => {
-  try{
-    const response = await authService.login(params)
-    localStorage.setItem('token', JSON.stringify(response))
+  try {
+    const response = await authService.login(params.userData)
+    if (params.isRemember) {
+      const userData = {
+        phoneNumber: response.phoneNumber,
+        role: params.userData.role,
+      }
+      localStorage.setItem('user_info', JSON.stringify(userData))
+    }
     thunkAPI.dispatch(push('/'))
     return response
-  }catch (error) {
-    return thunkAPI.rejectWithValue(error.message)
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data)
   }
 })
 
 export const logout = createAsyncThunk('auth/logout', async () => {
-  localStorage.removeItem('token')
+  localStorage.removeItem('user_info')
 })
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setUserInfo(state, action) {
+      state.isLoggedIn = true
+      state.currentUser = action.payload
+    },
+    resetErrorState(state) {
+      state.error = false
+    }
+  },
   extraReducers: {
     [login.pending]: (state) => {
       state.loading = true
+      state.error = false
     },
 
     [login.rejected]: (state, action) => {
@@ -44,7 +59,7 @@ const authSlice = createSlice({
       state.currentUser = action.payload
     },
 
-    [logout.fulfilled]: (state) => initialState
+    [logout.fulfilled]: (state) => initialState,
   },
 })
 

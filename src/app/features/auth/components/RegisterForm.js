@@ -1,35 +1,34 @@
 import * as Yup from 'yup'
-import React from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import {
   Alert,
   AlertDescription,
   AlertIcon,
   AlertTitle,
+  Avatar,
+  AvatarBadge,
   Button,
-  Checkbox,
+  Center,
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Heading,
-  Input,
-  Link,
-  Stack,
-  RadioGroup,
-  Radio,
-  InputLeftAddon,
-  InputGroup,
-  Center,
-  Avatar,
-  AvatarBadge,
+  HStack,
   IconButton,
+  Input,
+  InputGroup,
+  InputLeftAddon,
+  Stack,
+  useRadioGroup,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useSelector } from 'react-redux'
-import { SmallCloseIcon } from '@chakra-ui/icons'
+import RadioCard from '../../../../_kyn/components/RadioCard/RadioCard'
+import { useHistory } from 'react-router-dom'
+import { CmnConst } from '../../../../_kyn/const'
+import { FormAvatarInput } from '../../../../_kyn/components'
 
 const LoginSchema = Yup.object().shape({
-  phonenumber: Yup.string().max(20).required('Phone number is required'),
+  phoneNumber: Yup.string().max(20).required('Phone number is required'),
   name: Yup.string().max(20).required('Your name is required'),
   // password: Yup.string().max(20).required('Password is required'),
 })
@@ -42,59 +41,61 @@ export default function RegisterForm(props) {
   } = useForm({
     resolver: yupResolver(LoginSchema),
   })
+  const history = useHistory()
+  const role = useRef("Shop")
+  const previewImg = useRef(null)
+  const options = ["Shop", "Customer"]
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "role",
+    defaultValue: "Shop",
+    onChange: (value) => {role.current = value}
+  })
+  const group = getRootProps()
 
   const onSubmit = formData => {
-    props.onSubmit(formData)
+    let bodyFormData = new FormData();
+    bodyFormData.append("Name", formData.name)
+    bodyFormData.append("PhoneNumber", "0" + formData.phoneNumber)
+    const currentRole = role.current
+    if (previewImg.current) {
+      bodyFormData.append(currentRole === CmnConst.SHOP_ROLE ? "Logo" : "Avatar", previewImg.current)
+    }
+    const userData = {
+      user: bodyFormData,
+      role: currentRole
+    }
+    props.onSubmit(userData)
+  }
+
+  const onChangeUserIconHandler = (image) => {
+    previewImg.current = image
+  }
+
+  const cancelRegisterHandler = () => {
+    history.push('/login')
   }
 
   return (
     <React.Fragment>
       <form autoComplete="off" noValidate onSubmit={handleSubmit(onSubmit)}>
-        {props.errorMsg && (
-          <Alert status="error" mt={3}>
-            <AlertIcon />
-            <AlertTitle mr={2}>Register Fail</AlertTitle>
-            <AlertDescription>{props.errorMsg}</AlertDescription>
-          </Alert>
-        )}
-        <FormControl id="userName">
-          <FormLabel>User Icon</FormLabel>
-          <Stack direction={['column', 'row']} spacing={6}>
-            <Center>
-              <Avatar size="xl" src="https://bit.ly/sage-adebayo">
-                <AvatarBadge
-                  as={IconButton}
-                  size="sm"
-                  rounded="full"
-                  top="-10px"
-                  colorScheme="red"
-                  aria-label="remove Image"
-                  icon={<SmallCloseIcon />}
-                />
-              </Avatar>
-            </Center>
-            {/* <Center w="full">
-              <Button w="full">Change Icon</Button>
-            </Center> */}
-          </Stack>
-        </FormControl>
+        <FormAvatarInput label="User Icon" buttonName="Change Icon" onChangeImage={onChangeUserIconHandler}/>
         <FormControl
           mt={3}
-          id="phonenumber"
+          id="phoneNumber"
           isRequired
-          isInvalid={errors.phonenumber}
+          isInvalid={errors.phoneNumber}
         >
-          <FormLabel>Phone Number</FormLabel>
+          <FormLabel>Phone number</FormLabel>
           <InputGroup>
             <InputLeftAddon children="+84" />
             <Input
               type="tel"
               placeholder="Input your phone number here..."
               maxLength={9}
-              {...register('phonenumber')}
+              {...register('phoneNumber')}
             />
           </InputGroup>
-          <FormErrorMessage>{errors.phonenumber?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors.phoneNumber?.message}</FormErrorMessage>
           <FormControl mt={3} id="name" isRequired isInvalid={errors.name}>
             <FormLabel>Your name</FormLabel>
             <Input
@@ -105,35 +106,39 @@ export default function RegisterForm(props) {
             <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
           </FormControl>
         </FormControl>
-        <FormControl mt={3}>
-          <FormLabel>Login with role:</FormLabel>
-          <RadioGroup defaultValue="customer">
-            <Stack spacing={10} direction="row">
-              <Radio value="customer" colorScheme="pink">
-                Customer
-              </Radio>
-              <Radio value="shop" colorScheme="pink">
-                Shop
-              </Radio>
-            </Stack>
-          </RadioGroup>
-        </FormControl>
-        <Stack spacing={6} align="center">
+        <FormLabel mt={3}>Register with role:</FormLabel>
+        <HStack {...group} mt={2}>
+          {options.map((value) => {
+            const radio = getRadioProps({ value })
+            return (
+              <RadioCard key={value} {...radio}>
+                {value}
+              </RadioCard>
+            )
+          })}
+        </HStack>
+        <Stack spacing={6} direction={['column', 'row']} mt={4}>
           <Button
-            size="md"
-            height="48px"
-            width="200px"
-            border="2px"
+            onClick={cancelRegisterHandler}
+            bg={'red.400'}
             color={'white'}
-            bg={'pink.400'}
+            w="full"
             _hover={{
-              bg: 'pink.300',
-            }}
-            isLoading={props.loading}
-            type={'submit'}
-            mt={3}
-          >
-            Login
+              bg: 'red.500',
+            }}>
+            Cancel
+          </Button>
+          <Button
+            isLoading={props.isLoading}
+            loadingText="Submitting"
+            type={"submit"}
+            bg={'blue.400'}
+            color={'white'}
+            w="full"
+            _hover={{
+              bg: 'blue.500',
+            }}>
+            Submit
           </Button>
         </Stack>
       </form>

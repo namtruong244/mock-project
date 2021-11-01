@@ -25,8 +25,8 @@ import { ChevronDownIcon, ChevronRightIcon, CloseIcon, HamburgerIcon } from '@ch
 import { Link as RouterLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../../app/features/auth'
-import avatar from '../../assest/images/avt.jpg'
 import { FiBell, FiChevronDown } from 'react-icons/all'
+import { CmnConst } from '../../const'
 
 export default function NavBar() {
   const { isOpen, onToggle } = useDisclosure()
@@ -65,6 +65,8 @@ export default function NavBar() {
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
           <Text
+            as={RouterLink}
+            to='/'
             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
             fontFamily={'heading'}
             color={useColorModeValue('gray.800', 'white')}>
@@ -84,21 +86,21 @@ export default function NavBar() {
           {!isLoggedIn &&
           <>
             <Button
-              as={'a'}
+              as={RouterLink}
               fontSize={'sm'}
               fontWeight={400}
+              to={'/login'}
               variant={Link}>
-              <RouterLink to='/login'>
                 Sign In
-              </RouterLink>
             </Button>
             <Button
+              as={RouterLink}
               display={{md: 'inline-flex'}}
               fontSize={'sm'}
               fontWeight={600}
               color={'white'}
               bg={'pink.400'}
-              href={'#'}
+              to={'/register'}
               _hover={{
                 bg: 'pink.300',
               }}>
@@ -123,15 +125,16 @@ export default function NavBar() {
                   <HStack>
                     <Avatar
                       size={'sm'}
-                      src={avatar}
+                      src={`${CmnConst.BASE_64_PREFIX}${currentUser.avatar}`}
                     />
                     <VStack
                       display={{ base: 'none', md: 'flex' }}
                       alignItems="flex-start"
                       spacing="1px"
+                      minW={'50px'}
                       ml="2">
-                      <Text fontSize="sm" width={'max-content'}>{currentUser.fullName}</Text>
-                      <Text fontSize="xs" color="gray.600" textTransform={'capitalize'}>{currentUser.role}</Text>
+                      <Text fontSize="sm" width={'max-content'}>{currentUser.name}</Text>
+                      <Text fontSize="xs" color="gray.600" textTransform={'capitalize'} fontWeight={'bold'}>{currentUser.role}</Text>
                     </VStack>
                     <Box display={{ base: 'none', md: 'flex' }}>
                       <FiChevronDown />
@@ -141,7 +144,7 @@ export default function NavBar() {
                 <MenuList
                   bg={'white'}
                   borderColor={'gray.200'}>
-                  <MenuItem _hover={{ bg: 'pink.50', color: 'pink.400' }} _focus={'none'}>Profile</MenuItem>
+                  <MenuItem as={RouterLink} to={`/profile/${currentUser.userId}`} _hover={{ bg: 'pink.50', color: 'pink.400' }} _focus={'none'}>Profile</MenuItem>
                   <MenuItem _hover={{ bg: 'pink.50', color: 'pink.400' }}>Settings</MenuItem>
                   <MenuItem _hover={{ bg: 'pink.50', color: 'pink.400' }}>Billing</MenuItem>
                   <MenuDivider />

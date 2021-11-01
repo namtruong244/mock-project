@@ -4,10 +4,10 @@ import Footer from './Footer'
 
 export default function MainLayout({ children }) {
   return (
-    <React.Fragment>
+    <div style={{paddingBottom: '300px'}}>
       <NavBar />
       {children}
       <Footer />
-    </React.Fragment>
+    </div>
   )
 }

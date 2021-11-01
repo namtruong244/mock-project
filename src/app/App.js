@@ -8,8 +8,7 @@ function App() {
     <ChakraProvider theme={theme}>
       <AuthInit>
         <CSSReset />
-        {/* <Routes /> */}
-        <Register />
+        <Routes />
       </AuthInit>
     </ChakraProvider>
   )

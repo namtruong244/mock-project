@@ -1,6 +1,4 @@
-import { Redirect, Route, Switch } from 'react-router-dom'
-import { LoginPage } from '../features/auth'
-import { PrivateRoutes } from './PrivateRoutes'
+import { Switch } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { PublicRoutes } from './PublicRoutes'
 

@@ -1,41 +1,35 @@
 import React, { useEffect, useState } from 'react'
-import authService from '../../../services/authService'
-import { authActions, login } from '../authSlice'
-import { history } from '../../../utils'
+import { authActions, logout } from '../authSlice'
 import { useDispatch } from 'react-redux'
+import authService from '../../../services/authService'
 
 export default function AuthInit({ children }) {
   const dispatch = useDispatch()
   const [showSplashScreen, setShowSplashScreen] = useState(true)
-  const token = localStorage.getItem('token')
+  const userInfo = JSON.parse(localStorage.getItem('user_info'))
 
   // We should request user by authToken before rendering the application
-  useEffect(async () => {
-    // const requestUser = async () => {
-    //   try {
-    //
-    //     const { data } = await authService.refreshToken(token!)
-    //     dispatch(authActions.loginSuccess(data))
-    //   } catch (error) {
-    //     dispatch(authActions.logout())
-    //   } finally {
-    //     setShowSplashScreen(false)
-    //   }
-    // }
-    //
-    // if (token) {
-    //   requestUser()
-    // } else {
-    //   history.push('/login')
-    //   setShowSplashScreen(false)
-    // }
-
-    if (token) {
-      await dispatch(login(JSON.parse(token)))
-    } else {
-      history.push('/login')
+  useEffect(() => {
+    const requestUser = async () => {
+      try {
+        const loginData = {
+          user: { PhoneNumber: userInfo.phoneNumber },
+          role: userInfo.role,
+        }
+        const response = await authService.login(loginData)
+        dispatch(authActions.setUserInfo(response))
+      } catch (e) {
+        dispatch(logout())
+      } finally {
+        setShowSplashScreen(false)
+      }
     }
-    setShowSplashScreen(false)
+
+    if (userInfo) {
+      requestUser()
+    } else {
+      setShowSplashScreen(false)
+    }
 
     // eslint-disable-next-line
   }, [])

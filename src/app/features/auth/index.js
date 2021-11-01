@@ -1,5 +1,5 @@
 export { default as LoginPage } from './pages/LoginPage'
-export { default as Register } from './pages/Register'
+export { default as RegisterPage } from './pages/RegisterPage'
 export { default as AuthInit } from './pages/AuthInit'
 export { default as authReducer } from './authSlice'
 export * from './authSlice'

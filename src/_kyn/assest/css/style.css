@@ -2,8 +2,3 @@ body {
     position: relative;
     min-height: 100vh !important;
 }
-
-#root{
-    padding-bottom: 300px;
-}
-

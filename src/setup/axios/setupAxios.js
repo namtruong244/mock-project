@@ -15,11 +15,11 @@ export function setupAxios(store) {
   axiosClient.interceptors.request.use(
     function(config) {
       // Do something before request is sent
-      const { auth: { accessToken } } = store.getState()
-
-      if (accessToken) {
-        config.headers.Authorization = `Bearer ${accessToken}`
-      }
+      // const { auth: { accessToken } } = store.getState()
+      //
+      // if (accessToken) {
+      //   config.headers.Authorization = `Bearer ${accessToken}`
+      // }
       return config
     },
     function(error) {

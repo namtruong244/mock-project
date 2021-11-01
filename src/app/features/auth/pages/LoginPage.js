@@ -1,34 +1,42 @@
-import { Flex, Image, Stack } from '@chakra-ui/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../authSlice'
+import { authActions, login } from '../authSlice'
 import LoginForm from '../components/LoginForm'
+import Auth from '../components/Auth'
+import { useEffect } from 'react'
+import { useToast } from '@chakra-ui/react'
 
 export default function LoginPage() {
   const loading = useSelector(({ auth }) => auth.loading)
   const loginErrorMsg = useSelector(({ auth }) => auth.error)
   const dispatch = useDispatch()
-
+  const toast = useToast()
 
   const loginHandler = (user) => {
-      dispatch(login(user))
+    dispatch(login(user))
   }
 
+  useEffect(() => {
+    if (loginErrorMsg) {
+      toast({
+        position: 'top-right',
+        title: "Error",
+        description: loginErrorMsg,
+        status: "error",
+        duration: 6000,
+        isClosable: true,
+      })
+    }
+
+    return () => {
+      toast.closeAll()
+      dispatch(authActions.resetErrorState())
+    }
+
+  }, [loading])
+
   return (
-    <Stack minH={'100vh'} direction={{ base: 'column', md: 'row' }}>
-      <Flex p={8} flex={1} align={'center'} justify={'center'}>
-        <Stack spacing={4} w={'full'} maxW={'md'}>
-          <LoginForm loading={loading} onSubmit={loginHandler} errorMsg={loginErrorMsg} />
-        </Stack>
-      </Flex>
-      <Flex flex={1}>
-        <Image
-          alt={'LoginPage Image'}
-          objectFit={'cover'}
-          src={
-            'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80'
-          }
-        />
-      </Flex>
-    </Stack>
+    <Auth heading={'Login'}>
+      <LoginForm loading={loading} onSubmit={loginHandler} />
+    </Auth>
   )
 }

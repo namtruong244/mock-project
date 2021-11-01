@@ -1,25 +1,39 @@
-const fakeUser = {
-  username: 'oen',
-  fullName: 'Oen Oen',
-  password: '123456',
-  role: 'shop'
-}
+import { axiosClient } from '../../setup'
+import shopService from './shopService'
+import { CmnConst } from '../../_kyn/const'
 
 const authService = {
-  login(user) {
-    // const url = '/login'
-    // return axiosClient.post(url, user)
+  async login(userData) {
+    const url = `/${userData.role}/login`
+    try{
+      const response = await axiosClient.post(url, userData.user)
+      if (response.phoneNumber === null) {
+        return new Promise((_, reject) => reject({response: {data: "PhoneNumber is invalid"}}))
+      }
+      let userInfo = {
+        role: userData.role,
+        phoneNumber: response.phoneNumber
+      }
+      if (userData.role === 'Shop'){
+        const shopInfo = await shopService.getInfoById(response.shopId)
+        userInfo['userId'] = response.shopId
+        userInfo['name'] = shopInfo.name
+        userInfo['avatar'] = shopInfo.image
+      }else {
+        userInfo['userId'] = response.customerId
+        userInfo['name'] = response.name
+        userInfo['avatar'] = response.avatar
+      }
+      return new Promise(((resolve, _) => resolve(userInfo)))
+    }catch (e) {
+      return new Promise((_, reject) => reject(e))
+    }
 
-    // Fake login
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (user.username === fakeUser.username && user.password === fakeUser.password){
-          resolve(fakeUser)
-        }
-        reject(new Error("Username or password is invalid"))
-      }, 1000)
-    })
   },
+  async register(userData) {
+    const url = `/${userData.role}/register`
+    return await axiosClient.post(url, userData.user, { headers: { 'Content-Type': 'multipart/form-data' } })
+  }
 }
 
 export default authService

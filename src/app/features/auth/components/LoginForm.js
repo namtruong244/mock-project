@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   Alert,
   AlertDescription,
@@ -10,21 +10,21 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
-  Heading,
+  HStack,
   Input,
+  InputGroup,
+  InputLeftAddon,
   Link,
   Stack,
-  RadioGroup,
-  Radio,
-  InputLeftAddon,
-  InputGroup,
+  useRadioGroup,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useSelector } from 'react-redux'
+import RadioCard from '../../../../_kyn/components/RadioCard/RadioCard'
+import { Link as RouterLink } from 'react-router-dom'
 
 const LoginSchema = Yup.object().shape({
-  phonenumber: Yup.string().max(20).required('Phone number is required'),
+  phoneNumber: Yup.string().max(20).required('Phone number is required'),
 })
 
 export default function LoginForm(props) {
@@ -35,26 +35,35 @@ export default function LoginForm(props) {
   } = useForm({
     resolver: yupResolver(LoginSchema),
   })
+  let role = useRef("Shop")
+  const rememberRef = useRef(true)
+  const options = ["Shop", "Customer"]
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "role",
+    defaultValue: "Shop",
+    onChange: (value) => {role.current = value}
+  })
+  const group = getRootProps()
 
   const onSubmit = formData => {
-    props.onSubmit(formData)
+    const data = {
+      userData: {
+        user: { PhoneNumber: "0" + formData.phoneNumber },
+        role: role.current,
+      },
+      isRemember: rememberRef.current.checked
+    }
+    props.onSubmit(data)
   }
 
   return (
     <React.Fragment>
       <form autoComplete="off" noValidate onSubmit={handleSubmit(onSubmit)}>
-        {props.errorMsg && (
-          <Alert status="error" mt={3}>
-            <AlertIcon />
-            <AlertTitle mr={2}>Login Fail</AlertTitle>
-            <AlertDescription>{props.errorMsg}</AlertDescription>
-          </Alert>
-        )}
         <FormControl
           mt={3}
           id="phonenumber"
           isRequired
-          isInvalid={errors.phonenumber}
+          isInvalid={errors.phoneNumber}
         >
           <FormLabel>Phone Number</FormLabel>
           <InputGroup>
@@ -63,40 +72,44 @@ export default function LoginForm(props) {
               type="tel"
               placeholder="Input your phone number here..."
               maxLength={9}
-              {...register('phonenumber')}
+              {...register('phoneNumber')}
             />
           </InputGroup>
-          <FormErrorMessage>{errors.phonenumber?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors.phoneNumber?.message}</FormErrorMessage>
         </FormControl>
-        <FormControl mt={3}>
-          <FormLabel>Register with role:</FormLabel>
-          <RadioGroup defaultValue="customer">
-            <Stack spacing={10} direction="row">
-              <Radio value="customer" colorScheme="pink">
-                Customer
-              </Radio>
-              <Radio value="shop" colorScheme="pink">
-                Shop
-              </Radio>
-            </Stack>
-          </RadioGroup>
-        </FormControl>
-        <Stack spacing={6} align="center">
+        <FormLabel mt={3}>Login with role:</FormLabel>
+        <HStack {...group} mt={2}>
+          {options.map((value) => {
+            const radio = getRadioProps({ value })
+            return (
+              <RadioCard key={value} {...radio}>
+                {value}
+              </RadioCard>
+            )
+          })}
+        </HStack>
+        <Stack spacing={10} mt={7}>
+          <Stack
+            direction={{ base: 'column', sm: 'row' }}
+            align={'start'}
+            justify={'space-between'}>
+            <Checkbox colorScheme={'pink'} ref={rememberRef} defaultIsChecked={rememberRef.current}>Remember me</Checkbox>
+            <Link as={RouterLink} to='/register' color={'blue.400'}>Register New Account</Link>
+          </Stack>
           <Button
             size="md"
             height="48px"
-            width="200px"
+            width="full"
             border="2px"
             color={'white'}
-            bg={'pink.400'}
+            bg={'blue.400'}
             _hover={{
-              bg: 'pink.300',
+              bg: 'blue.300',
             }}
             isLoading={props.loading}
             type={'submit'}
-            mt={3}
           >
-            Sign in
+            Sign In
           </Button>
         </Stack>
       </form>
