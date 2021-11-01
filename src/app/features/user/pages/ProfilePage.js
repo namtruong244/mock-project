@@ -10,24 +10,28 @@ import { history } from '../../../utils'
 export default function ProfilePage() {
   const { userId } = useParams()
   const currentUser = useSelector((state) => state.auth.currentUser)
-  const { isLoading, isRefetching, data, refetch } = useQuery('profile', () => shopService.getInfoById(userId))
-
-  useEffect(() => {
-    refetch()
-  }, [userId])
-
-  if (data?.errorMessage) {
-    history.push('/')
+  // const { isLoading, isRefetching, data, refetch } = useQuery('profile', () => shopService.getInfoById(userId))
+  const data = {
+    name: "aaaaa",
+    phoneNumber: "093414556"
   }
 
-  if (isLoading || isRefetching) {
-    return (
-      <Box padding="6" boxShadow="lg" bg="white">
-        <SkeletonCircle size="10" />
-        <SkeletonText mt="4" noOfLines={4} spacing="4" />
-      </Box>
-    )
-  }
+  // useEffect(() => {
+  //   refetch()
+  // }, [userId])
+
+  // if (data?.errorMessage) {
+  //   history.push('/')
+  // }
+
+  // if (isLoading || isRefetching) {
+  //   return (
+  //     <Box padding="6" boxShadow="lg" bg="white">
+  //       <SkeletonCircle size="10" />
+  //       <SkeletonText mt="4" noOfLines={4} spacing="4" />
+  //     </Box>
+  //   )
+  // }
 
   return (
     <Stack direction={{ base: 'column', md: 'row' }}>

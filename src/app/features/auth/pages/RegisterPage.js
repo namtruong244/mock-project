@@ -7,7 +7,9 @@ import { useMutation } from 'react-query'
 
 export default function RegisterPage() {
   const toast = useToast()
-  const { isLoading, isError, data, error, mutate } = useMutation(authService.register)
+  const { isLoading, isError, data, error, mutate } = useMutation(
+    authService.register
+  )
 
   const registerHandler = userData => {
     mutate(userData)
@@ -16,14 +18,14 @@ export default function RegisterPage() {
   useEffect(() => {
     let status = 'success'
     let message = 'Register success'
-    let title = "Success"
+    let title = 'Success'
 
     if (isError || data?.errorMessage) {
-      title = "Error"
+      title = 'Error'
       status = 'error'
       message = isError ? error?.response.data : data?.errorMessage
     }
-    if (isError || data ) {
+    if (isError || data) {
       toast({
         position: 'top-right',
         title: title,
@@ -33,15 +35,11 @@ export default function RegisterPage() {
         isClosable: true,
       })
     }
-
   }, [isError, data])
 
   return (
-    <Auth heading='Register New Account'>
-      <RegisterForm
-        isLoading={isLoading}
-        onSubmit={registerHandler}
-      />
+    <Auth heading="Register">
+      <RegisterForm isLoading={isLoading} onSubmit={registerHandler} />
     </Auth>
   )
 }
