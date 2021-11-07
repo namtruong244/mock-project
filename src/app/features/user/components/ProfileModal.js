@@ -132,6 +132,7 @@ export default function ProfileModal() {
             <form autoComplete='off' noValidate>
               <FormAvatarInput initImg={currentUser ? `${CmnConst.BASE_64_PREFIX}${currentUser?.avatar}` : ''}
                                label='User Icon' buttonName='Change Icon' onChangeImage={onChangeUserIconHandler} />
+              {currentUser?.role === CmnConst.SHOP_ROLE &&
               <FormControl
                 mt={3}
                 id='phoneNumber'
@@ -150,6 +151,7 @@ export default function ProfileModal() {
                   />
                 </InputGroup>
                 <FormErrorMessage>{errors.phoneNumber?.message}</FormErrorMessage>
+              </FormControl>}
                 <FormControl mt={3} id='name' isRequired isInvalid={errors.name}>
                   <FormLabel>Your name</FormLabel>
                   <Input
@@ -159,7 +161,6 @@ export default function ProfileModal() {
                     {...register('name')}
                   />
                   <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
-                </FormControl>
               </FormControl>
             </form>
           </ModalBody>
