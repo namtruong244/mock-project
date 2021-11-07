@@ -42,7 +42,7 @@ export default function ProfileModal() {
 
   useEffect(() => {
     let status = 'success'
-    let message = 'Update info success'
+    let message = 'Update user info success'
     let title = 'Success'
 
     if (isError || data?.errorMessage) {
@@ -62,15 +62,29 @@ export default function ProfileModal() {
     }
 
     if (data && status === 'success') {
-      dispatch(fetchUserData(currentUser.userId))
+      dispatch(fetchUserData({
+        phoneNumber: currentUser.phoneNumber,
+        userId: currentUser.userId,
+        role: currentUser.role
+      }))
     }
 
   }, [isError, data])
+
+  useEffect(() => {
+    if (isOpen) {
+      reset({
+        phoneNumber: currentUser?.phoneNumber.replace('0', ''),
+        name: currentUser?.name
+      })
+    }
+  }, [isOpen])
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset
   } = useForm({
     resolver: yupResolver(LoginSchema),
   })
@@ -78,9 +92,12 @@ export default function ProfileModal() {
 
   const onSubmit = formData => {
     let bodyFormData = new FormData()
+    if (currentUser.role === CmnConst.CUSTOMER_ROLE) {
+      bodyFormData.append('CustomerId', currentUser.userId)
+    }
     bodyFormData.append('Name', formData.name)
     bodyFormData.append('PhoneNumber', currentUser.phoneNumber)
-    if (formData.phoneNumber !== currentUser.phoneNumber) {
+    if (currentUser.role === CmnConst.SHOP_ROLE && '0' + formData.phoneNumber !== currentUser.phoneNumber) {
       bodyFormData.append('NewPhoneNumber', '0' + formData.phoneNumber)
     }
     if (previewImg.current) {
@@ -126,7 +143,7 @@ export default function ProfileModal() {
                   <InputLeftAddon children='+84' />
                   <Input
                     type='tel'
-                    defaultValue={currentUser?.phoneNumber}
+                    defaultValue={currentUser?.phoneNumber.replace('0', '')}
                     placeholder='Input your phone number here...'
                     maxLength={9}
                     {...register('phoneNumber')}

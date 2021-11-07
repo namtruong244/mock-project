@@ -20,6 +20,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import RadioCard from '../../../../_kyn/components/RadioCard/RadioCard'
 import { Link as RouterLink } from 'react-router-dom'
+import { CmnConst } from '../../../../_kyn/const'
 
 const LoginSchema = Yup.object().shape({
   phoneNumber: Yup.string().max(20).required('Phone number is required'),
@@ -33,12 +34,11 @@ export default function LoginForm(props) {
   } = useForm({
     resolver: yupResolver(LoginSchema),
   })
-  let role = useRef('Shop')
+  let role = useRef(CmnConst.SHOP_ROLE)
   const rememberRef = useRef(true)
-  const options = ['Shop', 'Customer']
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'role',
-    defaultValue: 'Shop',
+    defaultValue: CmnConst.SHOP_ROLE,
     onChange: value => {
       role.current = value
     },
@@ -61,7 +61,7 @@ export default function LoginForm(props) {
       <form autoComplete='off' noValidate onSubmit={handleSubmit(onSubmit)}>
         <FormControl
           mt={3}
-          id='phonenumber'
+          id='phoneNumber'
           isRequired
           isInvalid={errors.phoneNumber}
         >
@@ -79,7 +79,7 @@ export default function LoginForm(props) {
         </FormControl>
         <FormLabel mt={3}>Login with role:</FormLabel>
         <HStack {...group} mt={2}>
-          {options.map(value => {
+          {CmnConst.OPTIONS_ROLE.map(value => {
             const radio = getRadioProps({ value })
             return (
               <RadioCard key={value} {...radio}>

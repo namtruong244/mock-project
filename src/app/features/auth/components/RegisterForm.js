@@ -33,12 +33,11 @@ export default function RegisterForm(props) {
     resolver: yupResolver(LoginSchema),
   })
 
-  const role = useRef('Shop')
+  const role = useRef(CmnConst.SHOP_ROLE)
   const previewImg = useRef(null)
-  const options = ['Shop', 'Customer']
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'role',
-    defaultValue: 'Shop',
+    defaultValue: CmnConst.SHOP_ROLE,
     onChange: value => {
       role.current = value
     },
@@ -104,7 +103,7 @@ export default function RegisterForm(props) {
         </FormControl>
         <FormLabel mt={3}>Register with role:</FormLabel>
         <HStack {...group} mt={2}>
-          {options.map(value => {
+          {CmnConst.OPTIONS_ROLE.map(value => {
             const radio = getRadioProps({ value })
             return (
               <RadioCard key={value} {...radio}>

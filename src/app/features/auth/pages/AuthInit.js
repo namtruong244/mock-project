@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { authActions, logout } from '../authSlice'
 import { useDispatch } from 'react-redux'
 import authService from '../../../services/authService'
+import { CmnConst } from '../../../../_kyn/const'
 
 export default function AuthInit({ children }) {
   const dispatch = useDispatch()
   const [showSplashScreen, setShowSplashScreen] = useState(true)
-  const userInfo = JSON.parse(localStorage.getItem('user_info'))
+  const userInfo = JSON.parse(localStorage.getItem(CmnConst.LOCAL_STORAGE_USER))
 
   // We should request user by authToken before rendering the application
   useEffect(() => {

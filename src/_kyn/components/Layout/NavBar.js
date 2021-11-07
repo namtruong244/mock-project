@@ -24,17 +24,29 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { ChevronDownIcon, ChevronRightIcon, CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
-import { Link as RouterLink } from 'react-router-dom'
+import { Link as RouterLink, useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../../app/features/auth'
 import { FiBell, FiChevronDown } from 'react-icons/all'
 import { CmnConst } from '../../const'
+import { profileModalActions } from '../../../app/features/user/profileModalSlice'
 
 export default function NavBar() {
   const { isOpen, onToggle } = useDisclosure()
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn)
   const currentUser = useSelector(({ auth }) => auth.currentUser)
   const dispatch = useDispatch()
+  const history = useHistory()
+
+  const profileHandler = () => {
+    if (isLoggedIn) {
+      if (currentUser.role === CmnConst.SHOP_ROLE) {
+        history.push(`/profile/${currentUser.userId}`)
+      }else if (currentUser.role === CmnConst.CUSTOMER_ROLE) {
+        dispatch(profileModalActions.open())
+      }
+    }
+  }
 
   const logoutHandler = () => {
     dispatch(logout())
@@ -147,8 +159,8 @@ export default function NavBar() {
                 <MenuList
                   bg={'white'}
                   borderColor={'gray.200'}>
-                  <MenuItem as={RouterLink} to={`/profile/${currentUser.userId}`}
-                            _hover={{ bg: 'pink.50', color: 'pink.400' }} _focus={'none'}>Profile</MenuItem>
+                  <MenuItem onClick={profileHandler}
+                            _hover={{ bg: 'pink.50', color: 'pink.400' }} _focus={'none'}>{currentUser.role === CmnConst.SHOP_ROLE ? "Profile" : "Update profile"}</MenuItem>
                   <MenuItem _hover={{ bg: 'pink.50', color: 'pink.400' }}>Settings</MenuItem>
                   <MenuItem _hover={{ bg: 'pink.50', color: 'pink.400' }}>Billing</MenuItem>
                   <MenuDivider />

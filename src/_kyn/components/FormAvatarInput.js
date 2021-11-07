@@ -10,7 +10,7 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { SmallCloseIcon } from '@chakra-ui/icons'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 export default function FormAvatarInput({
                                           label,
@@ -47,6 +47,12 @@ export default function FormAvatarInput({
       inputFile.current.value = null
     }
   }
+
+  useEffect(() => {
+    return () => {
+      inputFile.current = null
+    }
+  })
 
   return (
     <FormControl id='userName'>

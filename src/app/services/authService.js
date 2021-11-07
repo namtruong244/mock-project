@@ -1,5 +1,6 @@
 import { axiosClient } from '../../setup'
 import shopService from './shopService'
+import { CmnConst } from '../../_kyn/const'
 
 const authService = {
   async login(userData) {
@@ -13,7 +14,7 @@ const authService = {
         role: userData.role,
         phoneNumber: response.phoneNumber,
       }
-      if (userData.role === 'Shop') {
+      if (userData.role === CmnConst.SHOP_ROLE) {
         const shopInfo = await shopService.getInfoById(response.shopId)
         userInfo['userId'] = response.shopId
         userInfo['name'] = shopInfo.name

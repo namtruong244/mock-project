@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import authService from '../../services/authService'
 import { push } from 'connected-react-router'
 import shopService from '../../services/shopService'
+import { CmnConst } from '../../../_kyn/const'
+import customerService from '../../services/customerService'
 
 const initialState = {
   isLoggedIn: false,
@@ -33,18 +35,24 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 
 export const fetchUserData = createAsyncThunk('auth/fetchUserData', async (params, thunkAPI) => {
   try {
-    const response = await shopService.getInfoById(params)
-    const userInfoLocalStorage = JSON.parse(localStorage.getItem('user_info'))
+    let response
+    if (params.role === CmnConst.SHOP_ROLE){
+      response = await shopService.getInfoById(params.userId)
+    }else {
+      response = await customerService.getInfoByPhoneNumber(params.phoneNumber)
+    }
+
+    const userInfoLocalStorage = JSON.parse(localStorage.getItem(CmnConst.LOCAL_STORAGE_USER))
     if (userInfoLocalStorage && response.phoneNumber !== userInfoLocalStorage.phoneNumber) {
       userInfoLocalStorage.phoneNumber = response.phoneNumber
-      localStorage.setItem('user_info', JSON.stringify(userInfoLocalStorage))
+      localStorage.setItem(CmnConst.LOCAL_STORAGE_USER, JSON.stringify(userInfoLocalStorage))
     }
     return {
-      userId: params,
+      userId: params.userId,
       phoneNumber: response.phoneNumber,
       name: response.name,
-      avatar: response.image,
-      role: 'Shop',
+      avatar: response.avatar,
+      role: params.role,
     }
   } catch (e) {
     console.log(e)
