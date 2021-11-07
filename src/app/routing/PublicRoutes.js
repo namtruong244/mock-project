@@ -9,7 +9,7 @@ export function PublicRoutes() {
       <Route path='/login' component={LoginPage} />
       <Route path='/register' component={RegisterPage} />
       <MainLayout>
-        <Route path='/profile/:userId' component={ProfilePage}/>
+        <Route path='/profile/:userId' component={ProfilePage} />
         <Route path='/' exact>
           <p>Products</p>
         </Route>

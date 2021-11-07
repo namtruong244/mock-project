@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  isOpen : false
+  isOpen: false,
 }
 
 const profileModalSlice = createSlice({
@@ -13,8 +13,8 @@ const profileModalSlice = createSlice({
     },
     close(state) {
       state.isOpen = false
-    }
-  }
+    },
+  },
 })
 
 export const profileModalActions = profileModalSlice.actions

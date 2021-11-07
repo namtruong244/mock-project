@@ -6,7 +6,10 @@ import { profileModalActions } from '../profileModalSlice'
 
 
 function ProfileCard(props) {
-  const buttonProp = !props.isCurrentUser ? {color: '#151f21', name: 'Follow'} : {color: 'pink.400', name: 'Update profile'}
+  const buttonProp = !props.isCurrentUser ? { color: '#151f21', name: 'Follow' } : {
+    color: 'pink.400',
+    name: 'Update profile',
+  }
   const dispatch = useDispatch()
   const openProfileModal = () => {
     dispatch(profileModalActions.open())

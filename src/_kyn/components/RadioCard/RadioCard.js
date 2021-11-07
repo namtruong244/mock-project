@@ -7,21 +7,21 @@ export default function RadioCard(props) {
   const checkbox = getCheckboxProps()
 
   return (
-    <Box as="label">
+    <Box as='label'>
       <input {...input} />
       <Box
         {...checkbox}
-        cursor="pointer"
-        borderWidth="1px"
-        borderRadius="md"
-        boxShadow="md"
+        cursor='pointer'
+        borderWidth='1px'
+        borderRadius='md'
+        boxShadow='md'
         _checked={{
-          bg: "pink.400",
-          color: "white",
-          borderColor: "pink.400",
+          bg: 'pink.400',
+          color: 'white',
+          borderColor: 'pink.400',
         }}
         _focus={{
-          boxShadow: "outline",
+          boxShadow: 'outline',
         }}
         px={5}
         py={3}

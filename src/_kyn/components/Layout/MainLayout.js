@@ -4,7 +4,7 @@ import Footer from './Footer'
 
 export default function MainLayout({ children }) {
   return (
-    <div style={{paddingBottom: '300px'}}>
+    <div style={{ paddingBottom: '300px' }}>
       <NavBar />
       {children}
       <Footer />

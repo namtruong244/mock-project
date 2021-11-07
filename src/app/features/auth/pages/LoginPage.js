@@ -19,9 +19,9 @@ export default function LoginPage() {
     if (loginErrorMsg) {
       toast({
         position: 'top-right',
-        title: "Error",
+        title: 'Error',
         description: loginErrorMsg,
-        status: "error",
+        status: 'error',
         duration: 6000,
         isClosable: true,
       })

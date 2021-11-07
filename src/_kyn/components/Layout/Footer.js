@@ -33,7 +33,7 @@ const Logo = (props) => {
   )
 }
 
-const SocialButton = ({ children, label, href, }) => {
+const SocialButton = ({ children, label, href }) => {
   return (
     <chakra.button
       bg={'pink.400'}

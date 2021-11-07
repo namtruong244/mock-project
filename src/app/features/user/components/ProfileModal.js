@@ -14,7 +14,8 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay, useToast,
+  ModalOverlay,
+  useToast,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -42,14 +43,14 @@ export default function ProfileModal() {
   useEffect(() => {
     let status = 'success'
     let message = 'Update info success'
-    let title = "Success"
+    let title = 'Success'
 
     if (isError || data?.errorMessage) {
-      title = "Error"
+      title = 'Error'
       status = 'error'
       message = isError ? error?.response.data : data?.errorMessage
     }
-    if (isError || data ) {
+    if (isError || data) {
       toast({
         position: 'top-right',
         title: title,
@@ -83,11 +84,11 @@ export default function ProfileModal() {
       bodyFormData.append('NewPhoneNumber', '0' + formData.phoneNumber)
     }
     if (previewImg.current) {
-      bodyFormData.append(currentUser.role === CmnConst.SHOP_ROLE ? "Logo" : "Avatar", previewImg.current)
+      bodyFormData.append(currentUser.role === CmnConst.SHOP_ROLE ? 'Logo' : 'Avatar', previewImg.current)
     }
     const userData = {
       user: bodyFormData,
-      role: currentUser.role
+      role: currentUser.role,
     }
     mutate(userData)
   }
@@ -112,7 +113,8 @@ export default function ProfileModal() {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <form autoComplete='off' noValidate>
-              <FormAvatarInput initImg={currentUser ? `${CmnConst.BASE_64_PREFIX}${currentUser?.avatar}` :  ''} label='User Icon' buttonName='Change Icon' onChangeImage={onChangeUserIconHandler} />
+              <FormAvatarInput initImg={currentUser ? `${CmnConst.BASE_64_PREFIX}${currentUser?.avatar}` : ''}
+                               label='User Icon' buttonName='Change Icon' onChangeImage={onChangeUserIconHandler} />
               <FormControl
                 mt={3}
                 id='phoneNumber'
@@ -146,7 +148,8 @@ export default function ProfileModal() {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={handleSubmit(onSubmit)} isLoading={isLoading} loadingText="Submitting">
+            <Button colorScheme='blue' mr={3} onClick={handleSubmit(onSubmit)} isLoading={isLoading}
+                    loadingText='Submitting'>
               Save
             </Button>
             <Button onClick={onCloseHandler}>Cancel</Button>

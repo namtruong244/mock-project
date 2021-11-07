@@ -8,7 +8,7 @@ import { useMutation } from 'react-query'
 export default function RegisterPage() {
   const toast = useToast()
   const { isLoading, isError, data, error, mutate } = useMutation(
-    authService.register
+    authService.register,
   )
 
   const registerHandler = userData => {
@@ -38,7 +38,7 @@ export default function RegisterPage() {
   }, [isError, data])
 
   return (
-    <Auth heading="Register">
+    <Auth heading='Register'>
       <RegisterForm isLoading={isLoading} onSubmit={registerHandler} />
     </Auth>
   )

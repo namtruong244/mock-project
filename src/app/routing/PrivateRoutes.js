@@ -1,6 +1,5 @@
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { MainLayout } from '../../_kyn/components'
-import { useSelector } from 'react-redux'
 
 export function PrivateRoutes() {
   // const ProductPage = lazy(() => import('../features/product/pages/ProductPage'))

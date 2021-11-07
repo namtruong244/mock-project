@@ -15,8 +15,6 @@ import {
   Stack,
   Text,
   useRadioGroup,
-  Text,
-  Box,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'

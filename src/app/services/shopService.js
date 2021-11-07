@@ -10,7 +10,7 @@ const shopService = {
     //   userId: shopId
     // }
     return response
-  }
+  },
 }
 
 export default shopService

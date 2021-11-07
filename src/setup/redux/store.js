@@ -7,16 +7,16 @@ import { history } from '../../app/utils'
 const rootReducer = combineReducers({
   router: connectRouter(history),
   auth: authReducer,
-  profileModal: profileModalReducer
+  profileModal: profileModalReducer,
 })
 
 const middleWare = [
   ...getDefaultMiddleware({
     immutableCheck: true,
     serializableCheck: true,
-    thunk: true
+    thunk: true,
   }),
-  routerMiddleware(history)
+  routerMiddleware(history),
 ]
 
 export const store = configureStore({

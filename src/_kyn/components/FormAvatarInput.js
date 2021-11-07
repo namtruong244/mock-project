@@ -13,11 +13,11 @@ import { SmallCloseIcon } from '@chakra-ui/icons'
 import React, { useMemo, useRef, useState } from 'react'
 
 export default function FormAvatarInput({
-  label,
-  buttonName,
-  initImg = '',
-  onChangeImage,
-}) {
+                                          label,
+                                          buttonName,
+                                          initImg = '',
+                                          onChangeImage,
+                                        }) {
   const inputFile = useRef(null)
   const [previewImg, setPreviewImg] = useState(initImg)
 
@@ -33,7 +33,7 @@ export default function FormAvatarInput({
   }
 
   const getPreviewImg = useMemo(() => {
-    if (typeof previewImg === 'string'){
+    if (typeof previewImg === 'string') {
       return previewImg
     }
     return previewImg ? URL.createObjectURL(previewImg) : null
@@ -49,28 +49,28 @@ export default function FormAvatarInput({
   }
 
   return (
-    <FormControl id="userName">
+    <FormControl id='userName'>
       <FormLabel>{label}</FormLabel>
       <Stack direction={['column', 'row']} spacing={6}>
         <Center>
-          <Avatar size="xl" src={getPreviewImg}>
+          <Avatar size='xl' src={getPreviewImg}>
             <AvatarBadge
               as={IconButton}
               onClick={removeImageHandler}
-              size="sm"
-              rounded="full"
-              top="-10px"
-              colorScheme="red"
-              aria-label="remove Image"
+              size='sm'
+              rounded='full'
+              top='-10px'
+              colorScheme='red'
+              aria-label='remove Image'
               icon={<SmallCloseIcon />}
             />
           </Avatar>
         </Center>
-        <Center w="full">
+        <Center w='full'>
           <Button
-            bg="pink.400"
-            color="white"
-            w="full"
+            bg='pink.400'
+            color='white'
+            w='full'
             onClick={handleInputFile}
             _hover={{
               bg: 'pink.500',
@@ -79,10 +79,10 @@ export default function FormAvatarInput({
             {buttonName}
           </Button>
           <Input
-            type="file"
-            accept="image/*"
+            type='file'
+            accept='image/*'
             display={'None'}
-            w="full"
+            w='full'
             ref={inputFile}
             onChange={onChangeInputFileHandler}
           />

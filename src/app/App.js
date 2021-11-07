@@ -10,7 +10,7 @@ function App() {
       <AuthInit>
         <CSSReset />
         <Routes />
-         <ProfileModal/>
+        <ProfileModal />
       </AuthInit>
     </ChakraProvider>
   )

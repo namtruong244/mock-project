@@ -3,7 +3,8 @@ import {
   Box,
   Button,
   Collapse,
-  Flex, HStack,
+  Flex,
+  HStack,
   Icon,
   IconButton,
   Link,
@@ -19,7 +20,8 @@ import {
   Text,
   useBreakpointValue,
   useColorModeValue,
-  useDisclosure, VStack,
+  useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
 import { ChevronDownIcon, ChevronRightIcon, CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 import { Link as RouterLink } from 'react-router-dom'
@@ -31,7 +33,7 @@ import { CmnConst } from '../../const'
 export default function NavBar() {
   const { isOpen, onToggle } = useDisclosure()
   const isLoggedIn = useSelector(({ auth }) => auth.isLoggedIn)
-  const currentUser = useSelector(({auth}) => auth.currentUser)
+  const currentUser = useSelector(({ auth }) => auth.currentUser)
   const dispatch = useDispatch()
 
   const logoutHandler = () => {
@@ -91,11 +93,11 @@ export default function NavBar() {
               fontWeight={400}
               to={'/login'}
               variant={Link}>
-                Sign In
+              Sign In
             </Button>
             <Button
               as={RouterLink}
-              display={{md: 'inline-flex'}}
+              display={{ md: 'inline-flex' }}
               fontSize={'sm'}
               fontWeight={600}
               color={'white'}
@@ -111,16 +113,16 @@ export default function NavBar() {
           {isLoggedIn &&
           <HStack spacing={{ base: '0', md: '6' }}>
             <IconButton
-              size="lg"
-              variant="ghost"
-              aria-label="open menu"
+              size='lg'
+              variant='ghost'
+              aria-label='open menu'
               icon={<FiBell />}
             />
             <Flex alignItems={'center'}>
               <Menu>
                 <MenuButton
                   py={2}
-                  transition="all 0.3s"
+                  transition='all 0.3s'
                   _focus={{ boxShadow: 'none' }}>
                   <HStack>
                     <Avatar
@@ -129,12 +131,13 @@ export default function NavBar() {
                     />
                     <VStack
                       display={{ base: 'none', md: 'flex' }}
-                      alignItems="flex-start"
-                      spacing="1px"
+                      alignItems='flex-start'
+                      spacing='1px'
                       minW={'50px'}
-                      ml="2">
-                      <Text fontSize="sm" width={'max-content'}>{currentUser.name}</Text>
-                      <Text fontSize="xs" color="gray.600" textTransform={'capitalize'} fontWeight={'bold'}>{currentUser.role}</Text>
+                      ml='2'>
+                      <Text fontSize='sm' width={'max-content'}>{currentUser.name}</Text>
+                      <Text fontSize='xs' color='gray.600' textTransform={'capitalize'}
+                            fontWeight={'bold'}>{currentUser.role}</Text>
                     </VStack>
                     <Box display={{ base: 'none', md: 'flex' }}>
                       <FiChevronDown />
@@ -144,7 +147,8 @@ export default function NavBar() {
                 <MenuList
                   bg={'white'}
                   borderColor={'gray.200'}>
-                  <MenuItem as={RouterLink} to={`/profile/${currentUser.userId}`} _hover={{ bg: 'pink.50', color: 'pink.400' }} _focus={'none'}>Profile</MenuItem>
+                  <MenuItem as={RouterLink} to={`/profile/${currentUser.userId}`}
+                            _hover={{ bg: 'pink.50', color: 'pink.400' }} _focus={'none'}>Profile</MenuItem>
                   <MenuItem _hover={{ bg: 'pink.50', color: 'pink.400' }}>Settings</MenuItem>
                   <MenuItem _hover={{ bg: 'pink.50', color: 'pink.400' }}>Billing</MenuItem>
                   <MenuDivider />
@@ -337,5 +341,5 @@ const NAV_ITEMS = [
         href: '#',
       },
     ],
-  }
+  },
 ]

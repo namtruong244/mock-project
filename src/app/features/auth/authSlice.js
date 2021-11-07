@@ -44,9 +44,9 @@ export const fetchUserData = createAsyncThunk('auth/fetchUserData', async (param
       phoneNumber: response.phoneNumber,
       name: response.name,
       avatar: response.image,
-      role: "Shop"
+      role: 'Shop',
     }
-  }catch (e) {
+  } catch (e) {
     console.log(e)
   }
 })
@@ -61,7 +61,7 @@ const authSlice = createSlice({
     },
     resetErrorState(state) {
       state.error = false
-    }
+    },
   },
   extraReducers: {
     [login.pending]: (state) => {
@@ -84,7 +84,7 @@ const authSlice = createSlice({
 
     [fetchUserData.fulfilled]: (state, action) => {
       state.currentUser = action.payload
-    }
+    },
   },
 })
 

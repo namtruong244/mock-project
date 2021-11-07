@@ -11,14 +11,14 @@ import './_kyn/assest/css/style.css'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 setupAxios(store)
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
 
 ReactDOM.render(
   <StrictMode>
     <Provider store={store}>
       <Router history={history}>
         <QueryClientProvider client={queryClient}>
-        <App />
+          <App />
         </QueryClientProvider>
       </Router>
     </Provider>
