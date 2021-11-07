@@ -41,39 +41,49 @@ export default function RegisterForm(props) {
   } = useForm({
     resolver: yupResolver(LoginSchema),
   })
+
   const role = useRef("Shop")
   const previewImg = useRef(null)
-  const options = ["Shop", "Customer"]
+  const options = ['Shop', 'Customer']
   const { getRootProps, getRadioProps } = useRadioGroup({
-    name: "role",
-    defaultValue: "Shop",
-    onChange: (value) => {role.current = value}
+    name: 'role',
+    defaultValue: 'Shop',
+    onChange: value => {
+      role.current = value
+    },
   })
   const group = getRootProps()
 
   const onSubmit = formData => {
-    let bodyFormData = new FormData();
-    bodyFormData.append("Name", formData.name)
-    bodyFormData.append("PhoneNumber", "0" + formData.phoneNumber)
+    let bodyFormData = new FormData()
+    bodyFormData.append('Name', formData.name)
+    bodyFormData.append('PhoneNumber', '0' + formData.phoneNumber)
     const currentRole = role.current
     if (previewImg.current) {
-      bodyFormData.append(currentRole === CmnConst.SHOP_ROLE ? "Logo" : "Avatar", previewImg.current)
+      bodyFormData.append(
+        currentRole === CmnConst.SHOP_ROLE ? 'Logo' : 'Avatar',
+        previewImg.current
+      )
     }
     const userData = {
       user: bodyFormData,
-      role: currentRole
+      role: currentRole,
     }
     props.onSubmit(userData)
   }
 
-  const onChangeUserIconHandler = (image) => {
+  const onChangeUserIconHandler = image => {
     previewImg.current = image
   }
 
   return (
     <React.Fragment>
       <form autoComplete="off" noValidate onSubmit={handleSubmit(onSubmit)}>
-        <FormAvatarInput label="User Icon" buttonName="Change Icon" onChangeImage={onChangeUserIconHandler}/>
+        <FormAvatarInput
+          label="User's Avatar"
+          buttonName="Change Avatar"
+          onChangeImage={onChangeUserIconHandler}
+        />
         <FormControl
           mt={3}
           id="phoneNumber"
@@ -103,7 +113,7 @@ export default function RegisterForm(props) {
         </FormControl>
         <FormLabel mt={3}>Register with role:</FormLabel>
         <HStack {...group} mt={2}>
-          {options.map((value) => {
+          {options.map(value => {
             const radio = getRadioProps({ value })
             return (
               <RadioCard key={value} {...radio}>
@@ -124,7 +134,7 @@ export default function RegisterForm(props) {
               bg: 'pink.300',
             }}>
             Submit
-          </Button>`
+          </Button>
         </Stack>
       </form>
     </React.Fragment>

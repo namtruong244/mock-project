@@ -15,6 +15,8 @@ import {
   Stack,
   Text,
   useRadioGroup,
+  Text,
+  Box,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -39,7 +41,7 @@ export default function LoginForm(props) {
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'role',
     defaultValue: 'Shop',
-    onChange: (value) => {
+    onChange: value => {
       role.current = value
     },
   })
@@ -79,7 +81,7 @@ export default function LoginForm(props) {
         </FormControl>
         <FormLabel mt={3}>Login with role:</FormLabel>
         <HStack {...group} mt={2}>
-          {options.map((value) => {
+          {options.map(value => {
             const radio = getRadioProps({ value })
             return (
               <RadioCard key={value} {...radio}>
@@ -92,9 +94,15 @@ export default function LoginForm(props) {
           <Stack
             direction={{ base: 'column', sm: 'row' }}
             align={'start'}
-            justify={'space-between'}>
-            <Checkbox colorScheme={'pink'} ref={rememberRef} defaultIsChecked={rememberRef.current}>Remember
-              me</Checkbox>
+            justify={'space-between'}
+          >
+            <Checkbox
+              colorScheme={'pink'}
+              ref={rememberRef}
+              defaultIsChecked={rememberRef.current}
+            >
+              Remember me
+            </Checkbox>
           </Stack>
           <Button
             size='md'
