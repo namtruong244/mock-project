@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import authService from '../../services/authService'
 import { push } from 'connected-react-router'
+import shopService from '../../services/shopService'
 
 const initialState = {
   isLoggedIn: false,
@@ -28,6 +29,26 @@ export const login = createAsyncThunk('auth/login', async (params, thunkAPI) => 
 
 export const logout = createAsyncThunk('auth/logout', async () => {
   localStorage.removeItem('user_info')
+})
+
+export const fetchUserData = createAsyncThunk('auth/fetchUserData', async (params, thunkAPI) => {
+  try {
+    const response = await shopService.getInfoById(params)
+    const userInfoLocalStorage = JSON.parse(localStorage.getItem('user_info'))
+    if (userInfoLocalStorage && response.phoneNumber !== userInfoLocalStorage.phoneNumber) {
+      userInfoLocalStorage.phoneNumber = response.phoneNumber
+      localStorage.setItem('user_info', JSON.stringify(userInfoLocalStorage))
+    }
+    return {
+      userId: params,
+      phoneNumber: response.phoneNumber,
+      name: response.name,
+      avatar: response.image,
+      role: "Shop"
+    }
+  }catch (e) {
+    console.log(e)
+  }
 })
 
 const authSlice = createSlice({
@@ -60,6 +81,10 @@ const authSlice = createSlice({
     },
 
     [logout.fulfilled]: (state) => initialState,
+
+    [fetchUserData.fulfilled]: (state, action) => {
+      state.currentUser = action.payload
+    }
   },
 })
 

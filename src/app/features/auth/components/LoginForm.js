@@ -1,10 +1,7 @@
 import * as Yup from 'yup'
 import React, { useRef } from 'react'
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
+  Box,
   Button,
   Checkbox,
   FormControl,
@@ -16,6 +13,7 @@ import {
   InputLeftAddon,
   Link,
   Stack,
+  Text,
   useRadioGroup,
 } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form'
@@ -35,42 +33,44 @@ export default function LoginForm(props) {
   } = useForm({
     resolver: yupResolver(LoginSchema),
   })
-  let role = useRef("Shop")
+  let role = useRef('Shop')
   const rememberRef = useRef(true)
-  const options = ["Shop", "Customer"]
+  const options = ['Shop', 'Customer']
   const { getRootProps, getRadioProps } = useRadioGroup({
-    name: "role",
-    defaultValue: "Shop",
-    onChange: (value) => {role.current = value}
+    name: 'role',
+    defaultValue: 'Shop',
+    onChange: (value) => {
+      role.current = value
+    },
   })
   const group = getRootProps()
 
   const onSubmit = formData => {
     const data = {
       userData: {
-        user: { PhoneNumber: "0" + formData.phoneNumber },
+        user: { PhoneNumber: '0' + formData.phoneNumber },
         role: role.current,
       },
-      isRemember: rememberRef.current.checked
+      isRemember: rememberRef.current.checked,
     }
     props.onSubmit(data)
   }
 
   return (
     <React.Fragment>
-      <form autoComplete="off" noValidate onSubmit={handleSubmit(onSubmit)}>
+      <form autoComplete='off' noValidate onSubmit={handleSubmit(onSubmit)}>
         <FormControl
           mt={3}
-          id="phonenumber"
+          id='phonenumber'
           isRequired
           isInvalid={errors.phoneNumber}
         >
           <FormLabel>Phone Number</FormLabel>
           <InputGroup>
-            <InputLeftAddon children="+84" />
+            <InputLeftAddon children='+84' />
             <Input
-              type="tel"
-              placeholder="Input your phone number here..."
+              type='tel'
+              placeholder='Input your phone number here...'
               maxLength={9}
               {...register('phoneNumber')}
             />
@@ -88,30 +88,38 @@ export default function LoginForm(props) {
             )
           })}
         </HStack>
-        <Stack spacing={10} mt={7}>
+        <Stack spacing={6} mt={2}>
           <Stack
             direction={{ base: 'column', sm: 'row' }}
             align={'start'}
             justify={'space-between'}>
-            <Checkbox colorScheme={'pink'} ref={rememberRef} defaultIsChecked={rememberRef.current}>Remember me</Checkbox>
-            <Link as={RouterLink} to='/register' color={'blue.400'}>Register New Account</Link>
+            <Checkbox colorScheme={'pink'} ref={rememberRef} defaultIsChecked={rememberRef.current}>Remember
+              me</Checkbox>
           </Stack>
           <Button
-            size="md"
-            height="48px"
-            width="full"
-            border="2px"
+            size='md'
+            height='48px'
+            width='full'
+            border='2px'
             color={'white'}
-            bg={'blue.400'}
+            bg={'pink.400'}
             _hover={{
-              bg: 'blue.300',
+              bg: 'pink.300',
             }}
             isLoading={props.loading}
             type={'submit'}
           >
-            Sign In
+            Login
           </Button>
         </Stack>
+        <Box textAlign='center'>
+          <Text as='abbr'>
+            If you don't have account,{' '}
+            <Link as={RouterLink} to='/register' color={'pink.400'}>
+              register here
+            </Link>
+          </Text>
+        </Box>
       </form>
     </React.Fragment>
   )

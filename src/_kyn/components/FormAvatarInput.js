@@ -18,7 +18,13 @@ export default function FormAvatarInput({label, buttonName, initImg="", onChange
     }
   }
 
-  const getPreviewImg = useMemo(() => previewImg ? URL.createObjectURL(previewImg) : null, [previewImg])
+  const getPreviewImg = useMemo(() => {
+    if (typeof previewImg === 'string'){
+      return previewImg
+    }
+    return previewImg ? URL.createObjectURL(previewImg) : null
+  }, [previewImg])
+
 
   const removeImageHandler = () => {
     if (previewImg) {
@@ -47,7 +53,13 @@ export default function FormAvatarInput({label, buttonName, initImg="", onChange
           </Avatar>
         </Center>
         <Center w="full">
-          <Button w="full" onClick={handleInputFile}>{buttonName}</Button>
+          <Button bg="pink.400"
+                  color="white"
+                  w="full"
+                  onClick={handleInputFile}
+                  _hover={{
+                    bg: 'pink.500',
+                  }}>{buttonName}</Button>
           <Input type="file" accept="image/*" display={'None'} w='full' ref={inputFile} onChange={onChangeInputFileHandler}/>
         </Center>
       </Stack>

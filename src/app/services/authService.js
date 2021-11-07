@@ -1,6 +1,5 @@
 import { axiosClient } from '../../setup'
 import shopService from './shopService'
-import { CmnConst } from '../../_kyn/const'
 
 const authService = {
   async login(userData) {
@@ -33,6 +32,10 @@ const authService = {
   async register(userData) {
     const url = `/${userData.role}/register`
     return await axiosClient.post(url, userData.user, { headers: { 'Content-Type': 'multipart/form-data' } })
+  },
+  async updateUserInfo(userData) {
+    const url = `/${userData.role}`
+    return await axiosClient.put(url, userData.user, { headers: { 'Content-Type': 'multipart/form-data' } })
   }
 }
 
