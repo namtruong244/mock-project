@@ -4,7 +4,12 @@ const shopUrl = '/Shop/'
 
 const shopService = {
   async getInfoById(shopId) {
-    return await axiosClient.get(`${shopUrl}${shopId}`)
+    const response = await axiosClient.get(`${shopUrl}${shopId}`)
+    // return {
+    //   ...response,
+    //   userId: shopId
+    // }
+    return response
   }
 }
 

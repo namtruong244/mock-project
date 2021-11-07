@@ -1,10 +1,7 @@
 import * as Yup from 'yup'
 import React, { useRef } from 'react'
 import {
-  Alert,
-  AlertDescription,
-  AlertIcon,
-  AlertTitle,
+  Box,
   Button,
   Checkbox,
   FormControl,
@@ -16,6 +13,7 @@ import {
   InputLeftAddon,
   Link,
   Stack,
+  Text,
   useRadioGroup,
   Text,
   Box,
@@ -62,19 +60,19 @@ export default function LoginForm(props) {
 
   return (
     <React.Fragment>
-      <form autoComplete="off" noValidate onSubmit={handleSubmit(onSubmit)}>
+      <form autoComplete='off' noValidate onSubmit={handleSubmit(onSubmit)}>
         <FormControl
           mt={3}
-          id="phonenumber"
+          id='phonenumber'
           isRequired
           isInvalid={errors.phoneNumber}
         >
           <FormLabel>Phone Number</FormLabel>
           <InputGroup>
-            <InputLeftAddon children="+84" />
+            <InputLeftAddon children='+84' />
             <Input
-              type="tel"
-              placeholder="Input your phone number here..."
+              type='tel'
+              placeholder='Input your phone number here...'
               maxLength={9}
               {...register('phoneNumber')}
             />
@@ -107,14 +105,14 @@ export default function LoginForm(props) {
             </Checkbox>
           </Stack>
           <Button
-            size="md"
-            height="48px"
-            width="full"
-            border="2px"
+            size='md'
+            height='48px'
+            width='full'
+            border='2px'
             color={'white'}
             bg={'pink.400'}
             _hover={{
-              bg: 'pink',
+              bg: 'pink.300',
             }}
             isLoading={props.loading}
             type={'submit'}
@@ -122,10 +120,10 @@ export default function LoginForm(props) {
             Login
           </Button>
         </Stack>
-        <Box textAlign="center">
-          <Text as="abbr">
+        <Box textAlign='center'>
+          <Text as='abbr'>
             If you don't have account,{' '}
-            <Link as={RouterLink} to="/register" color={'pink.400'}>
+            <Link as={RouterLink} to='/register' color={'pink.400'}>
               register here
             </Link>
           </Text>

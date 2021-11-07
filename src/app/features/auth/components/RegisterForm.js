@@ -41,8 +41,8 @@ export default function RegisterForm(props) {
   } = useForm({
     resolver: yupResolver(LoginSchema),
   })
-  const history = useHistory()
-  const role = useRef('Shop')
+
+  const role = useRef("Shop")
   const previewImg = useRef(null)
   const options = ['Shop', 'Customer']
   const { getRootProps, getRadioProps } = useRadioGroup({
@@ -74,10 +74,6 @@ export default function RegisterForm(props) {
 
   const onChangeUserIconHandler = image => {
     previewImg.current = image
-  }
-
-  const cancelRegisterHandler = () => {
-    history.push('/login')
   }
 
   return (
@@ -127,28 +123,17 @@ export default function RegisterForm(props) {
           })}
         </HStack>
         <Stack spacing={6} direction={['column', 'row']} mt={4}>
-          {/* <Button
-            onClick={cancelRegisterHandler}
-            bg={'red.400'}
-            color={'white'}
-            w="full"
-            _hover={{
-              bg: 'red.500',
-            }}>
-            Cancel
-          </Button> */}
           <Button
             isLoading={props.isLoading}
             loadingText="Submitting"
-            type={'submit'}
+            type={"submit"}
             bg={'pink.400'}
             color={'white'}
             w="full"
             _hover={{
-              bg: 'pink.500',
-            }}
-          >
-            Register
+              bg: 'pink.300',
+            }}>
+            Submit
           </Button>
         </Stack>
       </form>

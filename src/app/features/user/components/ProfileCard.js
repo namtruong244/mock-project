@@ -1,10 +1,16 @@
 import React from 'react'
 import { Avatar, Box, Button, Center, Flex, Heading, Image, Stack, Text, useColorModeValue } from '@chakra-ui/react'
 import { CmnConst } from '../../../../_kyn/const'
+import { useDispatch } from 'react-redux'
+import { profileModalActions } from '../profileModalSlice'
 
 
 function ProfileCard(props) {
   const buttonProp = !props.isCurrentUser ? {color: '#151f21', name: 'Follow'} : {color: 'pink.400', name: 'Update profile'}
+  const dispatch = useDispatch()
+  const openProfileModal = () => {
+    dispatch(profileModalActions.open())
+  }
 
   return (
     <React.Fragment>
@@ -61,6 +67,7 @@ function ProfileCard(props) {
             <Button
               w={'full'}
               mt={8}
+              onClick={openProfileModal}
               bg={useColorModeValue(buttonProp.color, 'gray.900')}
               color={'white'}
               rounded={'md'}

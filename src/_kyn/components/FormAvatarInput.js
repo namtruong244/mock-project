@@ -32,10 +32,13 @@ export default function FormAvatarInput({
     }
   }
 
-  const getPreviewImg = useMemo(
-    () => (previewImg ? URL.createObjectURL(previewImg) : null),
-    [previewImg]
-  )
+  const getPreviewImg = useMemo(() => {
+    if (typeof previewImg === 'string'){
+      return previewImg
+    }
+    return previewImg ? URL.createObjectURL(previewImg) : null
+  }, [previewImg])
+
 
   const removeImageHandler = () => {
     if (previewImg) {
