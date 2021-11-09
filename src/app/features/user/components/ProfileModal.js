@@ -39,6 +39,8 @@ export default function ProfileModal() {
   const currentUser = useSelector(({ auth }) => auth.currentUser)
   const dispatch = useDispatch()
   const toast = useToast()
+  const phoneNumber = useRef("")
+  const imageFile = useRef(null)
 
   useEffect(() => {
     let status = 'success'
@@ -63,7 +65,7 @@ export default function ProfileModal() {
 
     if (data && status === 'success') {
       dispatch(fetchUserData({
-        phoneNumber: currentUser.phoneNumber,
+        phoneNumber: phoneNumber.current,
         userId: currentUser.userId,
         role: currentUser.role
       }))
@@ -77,6 +79,7 @@ export default function ProfileModal() {
         phoneNumber: currentUser?.phoneNumber.replace('0', ''),
         name: currentUser?.name
       })
+      imageFile.current = null
     }
   }, [isOpen])
 
@@ -88,20 +91,20 @@ export default function ProfileModal() {
   } = useForm({
     resolver: yupResolver(LoginSchema),
   })
-  const previewImg = useRef(null)
 
   const onSubmit = formData => {
+    phoneNumber.current = currentUser.role === CmnConst.SHOP_ROLE ? currentUser?.phoneNumber : '0' + formData.phoneNumber
     let bodyFormData = new FormData()
     if (currentUser.role === CmnConst.CUSTOMER_ROLE) {
       bodyFormData.append('CustomerId', currentUser.userId)
     }
     bodyFormData.append('Name', formData.name)
-    bodyFormData.append('PhoneNumber', currentUser.phoneNumber)
+    bodyFormData.append('PhoneNumber', phoneNumber.current)
     if (currentUser.role === CmnConst.SHOP_ROLE && '0' + formData.phoneNumber !== currentUser.phoneNumber) {
       bodyFormData.append('NewPhoneNumber', '0' + formData.phoneNumber)
     }
-    if (previewImg.current) {
-      bodyFormData.append(currentUser.role === CmnConst.SHOP_ROLE ? 'Logo' : 'Avatar', previewImg.current)
+    if (imageFile.current) {
+      bodyFormData.append(currentUser.role === CmnConst.SHOP_ROLE ? 'Logo' : 'Avatar', imageFile.current)
     }
     const userData = {
       user: bodyFormData,
@@ -115,7 +118,7 @@ export default function ProfileModal() {
   }
 
   const onChangeUserIconHandler = (image) => {
-    previewImg.current = image
+    imageFile.current = image
   }
 
   return ReactDOM.createPortal(
@@ -132,7 +135,6 @@ export default function ProfileModal() {
             <form autoComplete='off' noValidate>
               <FormAvatarInput initImg={currentUser ? `${CmnConst.BASE_64_PREFIX}${currentUser?.avatar}` : ''}
                                label='User Icon' buttonName='Change Icon' onChangeImage={onChangeUserIconHandler} />
-              {currentUser?.role === CmnConst.SHOP_ROLE &&
               <FormControl
                 mt={3}
                 id='phoneNumber'
@@ -144,14 +146,14 @@ export default function ProfileModal() {
                   <InputLeftAddon children='+84' />
                   <Input
                     type='tel'
-                    defaultValue={currentUser?.phoneNumber.replace('0', '')}
+                    defaultValue={currentUser?.phoneNumber?.replace('0', '')}
                     placeholder='Input your phone number here...'
                     maxLength={9}
                     {...register('phoneNumber')}
                   />
                 </InputGroup>
                 <FormErrorMessage>{errors.phoneNumber?.message}</FormErrorMessage>
-              </FormControl>}
+              </FormControl>
                 <FormControl mt={3} id='name' isRequired isInvalid={errors.name}>
                   <FormLabel>Your name</FormLabel>
                   <Input

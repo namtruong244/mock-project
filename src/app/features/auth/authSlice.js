@@ -20,7 +20,7 @@ export const login = createAsyncThunk('auth/login', async (params, thunkAPI) => 
         phoneNumber: response.phoneNumber,
         role: params.userData.role,
       }
-      localStorage.setItem('user_info', JSON.stringify(userData))
+      localStorage.setItem(CmnConst.LOCAL_STORAGE_USER, JSON.stringify(userData))
     }
     thunkAPI.dispatch(push('/'))
     return response
@@ -30,7 +30,7 @@ export const login = createAsyncThunk('auth/login', async (params, thunkAPI) => 
 })
 
 export const logout = createAsyncThunk('auth/logout', async () => {
-  localStorage.removeItem('user_info')
+  localStorage.removeItem(CmnConst.LOCAL_STORAGE_USER)
 })
 
 export const fetchUserData = createAsyncThunk('auth/fetchUserData', async (params, thunkAPI) => {

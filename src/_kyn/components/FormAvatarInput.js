@@ -18,8 +18,8 @@ export default function FormAvatarInput({
                                           initImg = '',
                                           onChangeImage,
                                         }) {
-  const inputFile = useRef(null)
   const [previewImg, setPreviewImg] = useState(initImg)
+  const inputFile = useRef(null)
 
   const handleInputFile = () => {
     inputFile.current?.click()
@@ -47,12 +47,6 @@ export default function FormAvatarInput({
       inputFile.current.value = null
     }
   }
-
-  useEffect(() => {
-    return () => {
-      inputFile.current = null
-    }
-  })
 
   return (
     <FormControl id='userName'>
