@@ -8,7 +8,7 @@ export function PrivateRoutes() {
     // <Suspense fallback={<FallbackView />}>
     <MainLayout>
       <Switch>
-        <Route path='/dashboard'>
+        <Route path="/dashboard">
           <p>Dashboard</p>
         </Route>
         {/*<Route path='/products' component={<p>Product</p>} />*/}
@@ -18,12 +18,11 @@ export function PrivateRoutes() {
         {/*<Route path='/crafted/account' component={AccountPage} />*/}
         {/*<Route path='/apps/chat' component={ChatPage} />*/}
         {/*<Route path='/menu-test' component={MenuTestPage} />*/}
-        <Redirect from='/login' to='/dashboard' />
-        <Redirect exact from='/' to='/dashboard' />
-        <Redirect to='error/404' />
+        <Redirect from="/login" to="/dashboard" />
+        <Redirect exact from="/" to="/dashboard" />
+        <Redirect to="error/404" />
       </Switch>
     </MainLayout>
     // </Suspense>
-
   )
 }
