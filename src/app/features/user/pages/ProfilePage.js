@@ -6,11 +6,14 @@ import shopService from '../../../services/shopService'
 import { Flex, Stack } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 import { history } from '../../../utils'
+import { StoreDetail } from '../../../features/products/pages/StoreDetail'
 
 export default function ProfilePage() {
   const { userId } = useParams()
-  const currentUser = useSelector((state) => state.auth.currentUser)
-  const { data, refetch, isError } = useQuery('profile', () => shopService.getInfoById(userId))
+  const currentUser = useSelector(state => state.auth.currentUser)
+  const { data, refetch, isError } = useQuery('profile', () =>
+    shopService.getInfoById(userId)
+  )
 
   useEffect(() => {
     refetch()
@@ -21,14 +24,16 @@ export default function ProfilePage() {
   }
 
   return (
-    <Stack direction={{ base: 'column', md: 'row' }}>
+    <Stack direction={{ base: 'column', md: 'row' }} >
       <Flex flex={0.5} w={'100%'}>
-        <ProfileCard userData={data} isCurrentUser={currentUser?.userId === userId} />
+        <ProfileCard
+          userData={data}
+          isCurrentUser={currentUser?.userId === userId}
+        />
       </Flex>
       <Flex flex={1.5} mt={3}>
-        Product
+        <StoreDetail />
       </Flex>
     </Stack>
   )
-
 }

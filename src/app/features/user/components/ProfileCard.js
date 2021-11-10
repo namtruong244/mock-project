@@ -1,15 +1,27 @@
 import React from 'react'
-import { Avatar, Box, Button, Center, Flex, Heading, Image, Stack, Text, useColorModeValue } from '@chakra-ui/react'
+import {
+  Avatar,
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  Image,
+  Stack,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import { CmnConst } from '../../../../_kyn/const'
 import { useDispatch } from 'react-redux'
 import { profileModalActions } from '../profileModalSlice'
 
-
 function ProfileCard(props) {
-  const buttonProp = !props.isCurrentUser ? { color: '#151f21', name: 'Follow' } : {
-    color: 'pink.400',
-    name: 'Update profile',
-  }
+  const buttonProp = !props.isCurrentUser
+    ? { color: '#151f21', name: 'Follow' }
+    : {
+        color: 'pink.400',
+        name: 'Update profile',
+      }
   const dispatch = useDispatch()
   const openProfileModal = () => {
     dispatch(profileModalActions.open())
@@ -24,7 +36,8 @@ function ProfileCard(props) {
           bg={useColorModeValue('white', 'gray.800')}
           boxShadow={'2xl'}
           rounded={'md'}
-          overflow={'hidden'}>
+          overflow={'hidden'}
+        >
           <Image
             h={'120px'}
             w={'full'}
@@ -54,13 +67,17 @@ function ProfileCard(props) {
 
             <Stack direction={'row'} justify={'center'} spacing={6}>
               <Stack spacing={0} align={'center'}>
-                <Text fontWeight={600}>{`${Math.floor(Math.random() * 10) + 1}000`}</Text>
+                <Text fontWeight={600}>{`${
+                  Math.floor(Math.random() * 10) + 1
+                }000`}</Text>
                 <Text fontSize={'sm'} color={'gray.500'}>
                   Followers
                 </Text>
               </Stack>
               <Stack spacing={0} align={'center'}>
-                <Text fontWeight={600}>{`${Math.floor(Math.random() * 10) + 1}000`}</Text>
+                <Text fontWeight={600}>{`${
+                  Math.floor(Math.random() * 10) + 1
+                }000`}</Text>
                 <Text fontSize={'sm'} color={'gray.500'}>
                   Like
                 </Text>
@@ -77,10 +94,10 @@ function ProfileCard(props) {
               _hover={{
                 transform: 'translateY(-2px)',
                 boxShadow: 'lg',
-              }}>
+              }}
+            >
               {buttonProp.name}
             </Button>
-
           </Box>
         </Box>
       </Center>
