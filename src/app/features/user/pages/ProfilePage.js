@@ -24,15 +24,15 @@ export default function ProfilePage() {
   }
 
   return (
-    <Stack direction={{ base: 'column', md: 'row' }} >
-      <Flex flex={0.5} w={'100%'}>
+    <Stack direction={{ base: 'column', md: 'row' }} maxW={'1140px'} margin={'0 auto'}>
+      <Flex flex={0.5} w={'100%'} mr={4}>
         <ProfileCard
           userData={data}
           isCurrentUser={currentUser?.userId === userId}
         />
       </Flex>
       <Flex flex={1.5} mt={3}>
-        <StoreDetail />
+        <StoreDetail products={data?.items}/>
       </Flex>
     </Stack>
   )

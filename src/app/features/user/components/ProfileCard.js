@@ -14,6 +14,7 @@ import {
 import { CmnConst } from '../../../../_kyn/const'
 import { useDispatch } from 'react-redux'
 import { profileModalActions } from '../profileModalSlice'
+import { randomInt } from '../../../utils'
 
 function ProfileCard(props) {
   const buttonProp = !props.isCurrentUser
@@ -29,7 +30,7 @@ function ProfileCard(props) {
 
   return (
     <React.Fragment>
-      <Center py={6} w={'full'}>
+      <Center py={6} w={'full'} alignItems={'start'}>
         <Box
           maxW={'270px'}
           w={'full'}
@@ -37,6 +38,8 @@ function ProfileCard(props) {
           boxShadow={'2xl'}
           rounded={'md'}
           overflow={'hidden'}
+          position={'sticky'}
+          top={'10px'}
         >
           <Image
             h={'120px'}
@@ -67,17 +70,13 @@ function ProfileCard(props) {
 
             <Stack direction={'row'} justify={'center'} spacing={6}>
               <Stack spacing={0} align={'center'}>
-                <Text fontWeight={600}>{`${
-                  Math.floor(Math.random() * 10) + 1
-                }000`}</Text>
+                <Text fontWeight={600}>{`${randomInt(1000, 5000)}`}</Text>
                 <Text fontSize={'sm'} color={'gray.500'}>
                   Followers
                 </Text>
               </Stack>
               <Stack spacing={0} align={'center'}>
-                <Text fontWeight={600}>{`${
-                  Math.floor(Math.random() * 10) + 1
-                }000`}</Text>
+                <Text fontWeight={600}>{`${randomInt(1000, 5000)}`}</Text>
                 <Text fontSize={'sm'} color={'gray.500'}>
                   Like
                 </Text>
