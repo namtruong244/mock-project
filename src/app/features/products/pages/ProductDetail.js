@@ -1,6 +1,17 @@
 import React from 'react'
-import { Grid, GridItem, Image, Box, Text } from '@chakra-ui/react'
-import { EditIcon, DeleteIcon } from '@chakra-ui/icons'
+import {
+  Grid,
+  GridItem,
+  Image,
+  Box,
+  Text,
+  FormLabel,
+  FormControl,
+  Stack,
+  Avatar,
+  AvatarBadge,
+} from '@chakra-ui/react'
+import { EditIcon, DeleteIcon, SmallCloseIcon } from '@chakra-ui/icons'
 
 const data = {
   isNew: true,
@@ -70,6 +81,20 @@ export function ProductDetail() {
           </GridItem>
         </Grid>
       </Box>
+
+      {/* <Box bg="pink" borderRadius="2%" w="50%" alignItems="center" ml="25%">
+        <FormControl>
+          <FormLabel ml="10px">New Product</FormLabel>
+          <Stack
+            direction={['column', 'row']}
+            spacing={6}
+            w="full"
+            h="50"
+          >
+            
+          </Stack>
+        </FormControl>
+      </Box> */}
     </React.Fragment>
   )
 }
