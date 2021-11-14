@@ -11,8 +11,6 @@ function App() {
       <AuthInit>
         <CSSReset />
         <Routes />
-        <ProfileModal />
-        <ProductModal />
       </AuthInit>
     </ChakraProvider>
   )

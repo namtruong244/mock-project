@@ -21,12 +21,14 @@ import { Rating } from '../components/Rating'
 import { useDispatch, useSelector } from 'react-redux'
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons'
 import { productModalActions } from '../../stores'
-import { productService } from '../../../services'
+import { cartService, productService } from '../../../services'
 import { useMutation } from 'react-query'
 
 export function CardFood({ item }) {
   const {data, mutate} = useMutation(productService.deleteProduct)
+  const { data: dataAddItem , mutate: addItem } = useMutation(cartService.addItem)
   const currentUser = useSelector(({ auth }) => auth.currentUser)
+  const cart = useSelector(({cart}) => cart)
   const isShop = currentUser?.role === CmnConst.SHOP_ROLE
   const dispatch = useDispatch()
 
@@ -34,12 +36,23 @@ export function CardFood({ item }) {
     dispatch(productModalActions.open(item))
   }
 
+  console.log(dataAddItem)
+
   const deleteProductHandler = () => {
     const data = {
       shopId: currentUser.userId,
       itemId: item.itemId
     }
     mutate(data)
+  }
+
+  const addItemHandler = () => {
+    const itemData = {
+      itemId: item.itemId,
+      customerId: currentUser.userId,
+      cartId: cart.cart.cartId
+    }
+    addItem(itemData)
   }
 
   return (
@@ -97,9 +110,9 @@ export function CardFood({ item }) {
                 color={'gray.800'}
                 fontSize={'1em'}
               >
-                <chakra.a href={'#'} display={'flex'}>
-                  <Icon as={FiShoppingCart} h={7} w={7} alignSelf={'center'} />
-                </chakra.a>
+                <Button color='pink.300' variant='outline' onClick={addItemHandler}>
+                  <Icon as={FiShoppingCart} h={4} w={4} alignSelf={'center'} />
+                </Button>
               </Tooltip>
               }
             </Flex>
