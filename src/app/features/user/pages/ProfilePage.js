@@ -32,27 +32,27 @@ export default function ProfilePage() {
     refetch()
   }, [userId, currentUser])
 
-  useEffect(() => {
-    if (deleteData?.errorMessage != ' ') {
-      toast({
-        title: 'Success',
-        description: 'Delete Successful!',
-        position: 'top-right',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      })
-      refetch()
-    } else
-      toast({
-        title: 'Fail',
-        description: 'Delete Fail!',
-        position: 'top-right',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      })
-  }, [deleteData])
+  // useEffect(() => {
+  //   if (deleteData?.errorMessage != ' ') {
+  //     toast({
+  //       title: 'Success',
+  //       description: 'Delete Successful!',
+  //       position: 'top-right',
+  //       status: 'success',
+  //       duration: 3000,
+  //       isClosable: true,
+  //     })
+  //     refetch()
+  //   } else
+  //     toast({
+  //       title: 'Fail',
+  //       description: 'Delete Fail!',
+  //       position: 'top-right',
+  //       status: 'error',
+  //       duration: 3000,
+  //       isClosable: true,
+  //     })
+  // }, [deleteData])
 
   // constants
   const outerLimit = 2
@@ -70,13 +70,13 @@ export default function ProfilePage() {
     })
 
   useEffect(() => {
-    let productSlice = data?.items?.slice(
+    let productSlice = data?.items?.filter(product => product.isActive)
+    productSlice = productSlice?.slice(
       (currentPage - 1) * itemPerPage,
       currentPage * itemPerPage
     )
-    productSlice = productSlice?.filter(product => product.isActive)
     setProducts(productSlice)
-    setTotalProduct(data?.items?.length)
+    setTotalProduct(productSlice?.length)
   }, [data, currentPage])
 
   if (isLoading) {
@@ -97,9 +97,8 @@ export default function ProfilePage() {
     setCurrentPage(nextPage)
   }
 
-  const deleteProductHandler = async product => {
-    await mutate(product)
-    await refetch()
+  const deleteProductHandler = product => {
+    mutate(product)
   }
 
   return (

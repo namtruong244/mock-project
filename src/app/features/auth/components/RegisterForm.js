@@ -52,7 +52,7 @@ export default function RegisterForm(props) {
     if (previewImg.current) {
       bodyFormData.append(
         currentRole === CmnConst.SHOP_ROLE ? 'Logo' : 'Avatar',
-        previewImg.current,
+        previewImg.current
       )
     }
     const userData = {
@@ -68,33 +68,33 @@ export default function RegisterForm(props) {
 
   return (
     <React.Fragment>
-      <form autoComplete='off' noValidate onSubmit={handleSubmit(onSubmit)}>
+      <form autoComplete="off" noValidate onSubmit={handleSubmit(onSubmit)}>
         <FormAvatarInput
           label="User's Avatar"
-          buttonName='Change Avatar'
+          buttonName="Change Avatar"
           onChangeImage={onChangeUserIconHandler}
         />
         <FormControl
           mt={3}
-          id='phoneNumber'
+          id="phoneNumber"
           isRequired
           isInvalid={errors.phoneNumber}
         >
           <FormLabel>Phone number</FormLabel>
           <InputGroup>
-            <InputLeftAddon children='+84' />
+            <InputLeftAddon children="+84" />
             <Input
-              type='tel'
-              placeholder='Input your phone number here...'
+              type="tel"
+              placeholder="Input your phone number here..."
               maxLength={9}
               {...register('phoneNumber')}
             />
           </InputGroup>
           <FormErrorMessage>{errors.phoneNumber?.message}</FormErrorMessage>
-          <FormControl mt={3} id='name' isRequired isInvalid={errors.name}>
+          <FormControl mt={3} id="name" isRequired isInvalid={errors.name}>
             <FormLabel>Your name</FormLabel>
             <Input
-              type='text'
+              type="text"
               placeholder={'Input your name here...'}
               {...register('name')}
             />
@@ -115,15 +115,16 @@ export default function RegisterForm(props) {
         <Stack spacing={6} direction={['column', 'row']} mt={4}>
           <Button
             isLoading={props.isLoading}
-            loadingText='Submitting'
+            loadingText="Submitting"
             type={'submit'}
             bg={'pink.400'}
             color={'white'}
-            w='full'
+            w="full"
             _hover={{
               bg: 'pink.300',
-            }}>
-            Submit
+            }}
+          >
+            Register
           </Button>
         </Stack>
       </form>

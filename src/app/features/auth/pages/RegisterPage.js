@@ -1,7 +1,7 @@
 import RegisterForm from '../components/RegisterForm'
 import Auth from '../components/Auth'
 import authService from '../../../services/authService'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useToast } from '@chakra-ui/react'
 import { useMutation } from 'react-query'
 
@@ -35,6 +35,7 @@ export default function RegisterPage() {
         isClosable: true,
       })
     }
+
   }, [isError, data])
 
   return (

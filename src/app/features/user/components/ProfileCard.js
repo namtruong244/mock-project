@@ -9,7 +9,8 @@ import {
   Image,
   Stack,
   Text,
-  useColorModeValue, useDisclosure,
+  useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { CmnConst } from '../../../../_kyn/const'
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,27 +23,31 @@ import { CartModal, getExistCart } from '../../cart'
 
 function ProfileCard(props) {
   const { isOpen, onClose, onOpen } = useDisclosure()
-  const { data: createCartData, mutate: createCart } = useMutation(cartService.createCart)
+  const { data: createCartData, mutate: createCart } = useMutation(
+    cartService.createCart
+  )
   const isCurrentUser = props.currentUser?.userId === props.shopId
   const dispatch = useDispatch()
-  const cart = useSelector(({cart}) => cart)
+  const cart = useSelector(({ cart }) => cart)
 
   const buttonProp = !isCurrentUser
-    ? { color: '#151f21', name: 'Follow' }
+    ? { color: 'pink.400', name: 'Follow' }
     : {
-      color: 'pink.400',
-      name: 'Update profile',
-    }
-  const cartButtonProp = cart.cart ? {
-    type: 'view',
-    name: 'View cart'
-  } : {
-    type: 'create',
-    name: 'Create new cart'
-  }
+        color: 'pink.400',
+        name: 'Update profile',
+      }
+  const cartButtonProp = cart.cart
+    ? {
+        type: 'view',
+        name: 'View cart',
+      }
+    : {
+        type: 'create',
+        name: 'Create new cart',
+      }
   const cartInfo = {
     customerId: props.currentUser?.userId,
-    shopId: props.shopId
+    shopId: props.shopId,
   }
 
   useEffect(() => {
@@ -62,14 +67,19 @@ function ProfileCard(props) {
   const cartHandler = () => {
     if (cartButtonProp.type === 'create') {
       createCart(cartInfo)
-    }else if (cartButtonProp.type === 'view') {
+    } else if (cartButtonProp.type === 'view') {
       onOpen()
     }
   }
 
   return (
     <React.Fragment>
-      <CartModal isOpen={isOpen} onClose={onClose} cartInfo={cartInfo} shopInfo={props.userData}/>
+      <CartModal
+        isOpen={isOpen}
+        onClose={onClose}
+        cartInfo={cartInfo}
+        shopInfo={props.userData}
+      />
       <Center py={6} w={'full'} alignItems={'start'}>
         <Box
           maxW={'270px'}
@@ -110,13 +120,13 @@ function ProfileCard(props) {
 
             <Stack direction={'row'} justify={'center'} spacing={6}>
               <Stack spacing={0} align={'center'}>
-                <Text fontWeight={600}>{`${randomInt(1000, 5000)}`}</Text>
+                <Text fontWeight={600}>7002</Text>
                 <Text fontSize={'sm'} color={'gray.500'}>
                   Followers
                 </Text>
               </Stack>
               <Stack spacing={0} align={'center'}>
-                <Text fontWeight={600}>{`${randomInt(1000, 5000)}`}</Text>
+                <Text fontWeight={600}>2000</Text>
                 <Text fontSize={'sm'} color={'gray.500'}>
                   Like
                 </Text>
@@ -137,13 +147,15 @@ function ProfileCard(props) {
             >
               {buttonProp.name}
             </Button>
-            {isCurrentUser &&
+            {isCurrentUser && (
               <Button
+                colorScheme="#ed64a6"
+                variant="outline"
                 w={'full'}
                 mt={3}
                 onClick={openProductModal}
-                bg={useColorModeValue('teal.400', 'gray.900')}
-                color={'white'}
+                // bg={useColorModeValue('teal.400', 'gray.900')}
+                color={'#ed64a6'}
                 rounded={'md'}
                 _hover={{
                   transform: 'translateY(-2px)',
@@ -152,23 +164,26 @@ function ProfileCard(props) {
               >
                 Add New Product
               </Button>
-            }
-            {props.currentUser && props.currentUser.role === CmnConst.CUSTOMER_ROLE &&
-              <Button
-                w={'full'}
-                mt={3}
-                onClick={cartHandler}
-                bg={useColorModeValue('pink.400', 'gray.900')}
-                color={'white'}
-                rounded={'md'}
-                _hover={{
-                  transform: 'translateY(-2px)',
-                  boxShadow: 'lg',
-                }}
-              >
-                {cartButtonProp.name}
-              </Button>
-            }
+            )}
+            {props.currentUser &&
+              props.currentUser.role === CmnConst.CUSTOMER_ROLE && (
+                <Button
+                  colorScheme="#ed64a6"
+                  variant="outline"
+                  w={'full'}
+                  mt={3}
+                  onClick={cartHandler}
+                  // bg={useColorModeValue('pink.400', 'gray.900')}
+                  color={'#ed64a6'}
+                  rounded={'md'}
+                  _hover={{
+                    transform: 'translateY(-2px)',
+                    boxShadow: 'lg',
+                  }}
+                >
+                  {cartButtonProp.name}
+                </Button>
+              )}
           </Box>
         </Box>
       </Center>

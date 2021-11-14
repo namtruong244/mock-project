@@ -4,14 +4,12 @@ import { BsStar, BsStarFill } from 'react-icons/bs'
 import React from 'react'
 
 export function Rating() {
-  const randomRating = randomInt(1, 5)
-  const randomReview = randomInt(1, 50)
   return (
     <Box d="flex" alignItems="center">
       {Array(5)
         .fill('')
         .map((_, i) => {
-          if (randomRating - i >= 1) {
+          if (3 - i >= 1) {
             return (
               <BsStarFill
                 key={i}
@@ -23,7 +21,7 @@ export function Rating() {
           return <BsStar key={i} style={{ marginLeft: '1' }} />
         })}
       <Box as="span" ml="2" color="gray.600" fontSize="sm">
-        {randomReview} review{randomReview > 1 && 's'}
+        244 reviews
       </Box>
     </Box>
   )
