@@ -4,10 +4,12 @@ import { profileModalReducer } from '../../app/features/user'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { history } from '../../app/utils'
 import { productModalReducer } from '../../app/features/stores'
+import { cartReducer } from '../../app/features/cart'
 
 const rootReducer = combineReducers({
   router: connectRouter(history),
   auth: authReducer,
+  cart: cartReducer,
   profileModal: profileModalReducer,
   productModal: productModalReducer
 })

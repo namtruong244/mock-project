@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   Avatar,
   Box,
@@ -9,32 +9,67 @@ import {
   Image,
   Stack,
   Text,
-  useColorModeValue,
+  useColorModeValue, useDisclosure,
 } from '@chakra-ui/react'
 import { CmnConst } from '../../../../_kyn/const'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { profileModalActions } from '../profileModalSlice'
 import { randomInt } from '../../../utils'
 import { productModalActions } from '../../stores'
+import { useMutation } from 'react-query'
+import { cartService } from '../../../services'
+import { CartModal, getExistCart } from '../../cart'
 
 function ProfileCard(props) {
-  const buttonProp = !props.isCurrentUser
+  const { isOpen, onClose, onOpen } = useDisclosure()
+  const { data: createCartData, mutate: createCart } = useMutation(cartService.createCart)
+  const isCurrentUser = props.currentUser?.userId === props.shopId
+  const dispatch = useDispatch()
+  const cart = useSelector(({cart}) => cart)
+
+  const buttonProp = !isCurrentUser
     ? { color: '#151f21', name: 'Follow' }
     : {
-        color: 'pink.400',
-        name: 'Update profile',
-      }
-  const dispatch = useDispatch()
+      color: 'pink.400',
+      name: 'Update profile',
+    }
+  const cartButtonProp = cart.cart ? {
+    type: 'view',
+    name: 'View cart'
+  } : {
+    type: 'create',
+    name: 'Create new cart'
+  }
+  const cartInfo = {
+    customerId: props.currentUser.userId,
+    shopId: props.shopId
+  }
+
+  useEffect(() => {
+    dispatch(getExistCart(cartInfo))
+  }, [createCartData])
+
   const openProfileModal = () => {
-    dispatch(profileModalActions.open())
+    if (isCurrentUser) {
+      dispatch(profileModalActions.open())
+    }
   }
 
   const openProductModal = () => {
     dispatch(productModalActions.open())
   }
 
+  const cartHandler = () => {
+    if (cartButtonProp.type === 'create') {
+      createCart(cartInfo)
+    }else if (cartButtonProp.type === 'view') {
+      onOpen()
+    }
+  }
+
   return (
     <React.Fragment>
+      <CartModal isOpen={isOpen} onClose={onClose} cartInfo={cartInfo} shopInfo={props.userData}/>
       <Center py={6} w={'full'} alignItems={'start'}>
         <Box
           maxW={'270px'}
@@ -102,7 +137,7 @@ function ProfileCard(props) {
             >
               {buttonProp.name}
             </Button>
-            {props.isCurrentUser &&
+            {isCurrentUser &&
               <Button
                 w={'full'}
                 mt={3}
@@ -116,6 +151,22 @@ function ProfileCard(props) {
                 }}
               >
                 Add New Product
+              </Button>
+            }
+            {props.currentUser && props.currentUser.role === CmnConst.CUSTOMER_ROLE &&
+              <Button
+                w={'full'}
+                mt={3}
+                onClick={cartHandler}
+                bg={useColorModeValue('pink.400', 'gray.900')}
+                color={'white'}
+                rounded={'md'}
+                _hover={{
+                  transform: 'translateY(-2px)',
+                  boxShadow: 'lg',
+                }}
+              >
+                {cartButtonProp.name}
               </Button>
             }
           </Box>

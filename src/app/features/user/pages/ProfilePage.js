@@ -7,6 +7,10 @@ import { Box, CircularProgress, Flex, Stack } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 import { history } from '../../../utils'
 import { StoreDetail } from '../../stores'
+import { Container, Next, PageGroup, Paginator, Previous, usePaginator } from 'chakra-paginator'
+import { CartModal } from '../../cart'
+import ProfileModal from '../components/ProfileModal'
+import { ProductModal } from '../../stores/components/ProductModal'
 import { useToast } from '@chakra-ui/react'
 import {
   Container,
@@ -107,15 +111,14 @@ export default function ProfilePage() {
   }
 
   return (
-    <Stack
-      direction={{ base: 'column', md: 'row' }}
-      maxW={'1140px'}
-      margin={'0 auto'}
-    >
+    <Stack direction={{ base: 'column', md: 'row' }} maxW={'1140px'} margin={'0 auto'}>
+      <ProfileModal />
+      <ProductModal />
       <Flex flex={0.5} w={'100%'} mr={4}>
         <ProfileCard
+          shopId={userId}
           userData={data}
-          isCurrentUser={currentUser?.userId === userId}
+          currentUser={currentUser}
         />
       </Flex>
       <Flex flex={1.5} mt={3} direction={'column'}>
