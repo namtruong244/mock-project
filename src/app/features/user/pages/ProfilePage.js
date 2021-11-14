@@ -39,55 +39,89 @@ export default function ProfilePage() {
     refetch()
   }, [userId, currentUser])
 
-  useEffect(
-    deleteData => {
-      let status = 'success'
-      let message = 'Delete success'
-      let title = 'Success'
+  useEffect(() => {
+    let status = 'success'
+    let message = 'Delete success'
+    let title = 'Success'
 
-      if (isError || deleteData?.errorMessage) {
-        title = 'Error'
-        status = 'error'
-        message = isError
-          ? error?.response.deleteData
-          : deleteData?.errorMessage
-      }
-      if (isError || deleteData) {
-        toast({
-          position: 'top-right',
-          title: title,
-          description: message,
-          status: status,
-          duration: 6000,
-          isClosable: true,
-        })
+    // console.log('hihi' + deleteData?.errorMessage)
 
-        refetch()
-      }
+    // if (isError || deleteData?.errorMessage != null || undefined) {
+    //   console.log('hihi' + deleteData?.errorMessage)
+    // toast({
+    //   position: 'top-right',
+    //   title: title,
+    //   description: message,
+    //   status: status,
+    //   duration: 3000,
+    //   isClosable: true,
+    //   })
+    //   refetch()
+    // } else if (deleteData?.successMessage != undefined) {
+    // toast({
+    //   title: 'Fail',
+    //   description: 'Delete Fail!',
+    //   position: 'top-right',
+    //   status: 'error',
+    //   duration: 3000,
+    //   isClosable: true,
+    // })
+    // }
+    if (deleteData != undefined) {
+      toast({
+        position: 'top-right',
+        title: title,
+        description: message,
+        status: status,
+        duration: 3000,
+        isClosable: true,
+      })
+      refetch()
+    } else if (isError) {
+      toast({
+        title: 'Fail',
+        description: 'Delete Fail!',
+        position: 'top-right',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      })
+    }
+    // if (isError || deleteData) {
+    //   toast({
+    //     position: 'top-right',
+    //     title: title,
+    //     description: message,
+    //     status: status,
+    //     duration: 6000,
+    //     isClosable: true,
+    //   })
+    // }
 
-      // if (deleteData?.errorMessage != ' ') {
-      //   console.log('deletesuccess')
-      // toast({
-      //   title: 'Success',
-      //   description: 'Delete Successful!',
-      //   position: 'top-right',
-      //   status: 'success',
-      //   duration: 3000,
-      //   isClosable: true,
-      // })
+    //
+    // }
 
-      // } else
-      //   toast({
-      //     title: 'Fail',
-      //     description: 'Delete Fail!',
-      //     position: 'top-right',
-      //     status: 'error',
-      //     duration: 3000,
-      //     isClosable: true,
-      //   })
-    },
-    [deleteData, isError]
-  )
+    // if (deleteData?.errorMessage != ' ') {
+    //   console.log('deletesuccess')
+    // toast({
+    //   title: 'Success',
+    //   description: 'Delete Successful!',
+    //   position: 'top-right',
+    //   status: 'success',
+    //   duration: 3000,
+    //   isClosable: true,
+    // })
+
+    // } else
+    // toast({
+    //   title: 'Fail',
+    //   description: 'Delete Fail!',
+    //   position: 'top-right',
+    //   status: 'error',
+    //   duration: 3000,
+    //   isClosable: true,
+    // })
+  }, [deleteData, isError])
 
   // constants
   const outerLimit = 2

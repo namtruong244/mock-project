@@ -30,18 +30,18 @@ import { cartService, productService } from '../../../services'
 import { useMutation } from 'react-query'
 
 export function CardFood({ item, isLoadingDelete, deleteProduct }) {
-  const { data: dataAddItem , mutate: addItem } = useMutation(cartService.addItem)
+  const { data: dataAddItem, mutate: addItem } = useMutation(
+    cartService.addItem
+  )
   const { isOpen, onOpen, onClose } = useDisclosure()
   const currentUser = useSelector(({ auth }) => auth.currentUser)
-  const cart = useSelector(({cart}) => cart)
+  const cart = useSelector(({ cart }) => cart)
   const isShop = currentUser?.role === CmnConst.SHOP_ROLE
   const dispatch = useDispatch()
 
   const editProductHandler = () => {
     dispatch(productModalActions.open(item))
   }
-
-  console.log(dataAddItem)
 
   const deleteProductHandler = () => {
     const data = {
@@ -55,7 +55,7 @@ export function CardFood({ item, isLoadingDelete, deleteProduct }) {
     const itemData = {
       itemId: item.itemId,
       customerId: currentUser.userId,
-      cartId: cart.cart.cartId
+      cartId: cart.cart.cartId,
     }
     addItem(itemData)
   }
@@ -65,7 +65,6 @@ export function CardFood({ item, isLoadingDelete, deleteProduct }) {
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          {/* <ModalCloseButton /> */}
           <ModalBody py={8}>
             <Flex justifyContent="center">
               <Text fontWeight="500" fontSize="22px">
@@ -73,7 +72,11 @@ export function CardFood({ item, isLoadingDelete, deleteProduct }) {
               </Text>
             </Flex>
             <Flex justifyContent="center" mt={5}>
-              <Button colorScheme="red" onClick={deleteProductHandler} isLoading={isLoadingDelete}>
+              <Button
+                colorScheme="red"
+                onClick={deleteProductHandler}
+                isLoading={isLoadingDelete}
+              >
                 Delete
               </Button>
               <Button colorScheme="blue" ml={3} onClick={onClose}>
@@ -102,9 +105,9 @@ export function CardFood({ item, isLoadingDelete, deleteProduct }) {
 
           <Image
             fallbackSrc={fallBackImage}
-            height={'11vw'}
-            minW={'16vw'}
-            maxW={'16vw'}
+            height={{ base: '45vw', md: '25vw', lg: '10vw' }}
+            minW={{ base: '60vw', md: '25vw', lg: '16vw' }}
+            maxW={{ base: '60vw', md: '25vw', lg: '16vw' }}
             objectFit="cover"
             src={`${CmnConst.BASE_64_PREFIX}${item.image}`}
             alt={`Picture of ${item.name}`}
@@ -128,19 +131,28 @@ export function CardFood({ item, isLoadingDelete, deleteProduct }) {
               >
                 {item.name}
               </Box>
-              {!isShop && currentUser &&
-              <Tooltip
-                label='Add to cart'
-                bg='white'
-                placement={'top'}
-                color={'gray.800'}
-                fontSize={'1em'}
-              >
-                <Button color='pink.300' variant='outline' onClick={addItemHandler}>
-                  <Icon as={FiShoppingCart} h={4} w={4} alignSelf={'center'} />
-                </Button>
-              </Tooltip>
-              }
+              {!isShop && currentUser && (
+                <Tooltip
+                  label="Add to cart"
+                  bg="white"
+                  placement={'top'}
+                  color={'gray.800'}
+                  fontSize={'1em'}
+                >
+                  <Button
+                    color="pink.300"
+                    variant="outline"
+                    onClick={addItemHandler}
+                  >
+                    <Icon
+                      as={FiShoppingCart}
+                      h={4}
+                      w={4}
+                      alignSelf={'center'}
+                    />
+                  </Button>
+                </Tooltip>
+              )}
             </Flex>
 
             <Flex justifyContent="space-between" alignContent="center">
