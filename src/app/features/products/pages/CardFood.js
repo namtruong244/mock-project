@@ -30,7 +30,7 @@ import { cartService, productService } from '../../../services'
 import { useMutation } from 'react-query'
 
 export function CardFood({ item, isLoadingDelete, deleteProduct }) {
-  const { data: dataAddItem , mutate: addItem } = useMutation(cartService.addItem)
+  const { mutate: addItem } = useMutation(cartService.addItem)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const currentUser = useSelector(({ auth }) => auth.currentUser)
   const cart = useSelector(({cart}) => cart)
@@ -40,8 +40,6 @@ export function CardFood({ item, isLoadingDelete, deleteProduct }) {
   const editProductHandler = () => {
     dispatch(productModalActions.open(item))
   }
-
-  console.log(dataAddItem)
 
   const deleteProductHandler = () => {
     const data = {

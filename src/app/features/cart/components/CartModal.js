@@ -24,24 +24,53 @@ import { getExistCart } from '../cartSlice'
 import { currencyFormatter } from '../../../utils'
 import { CmnConst } from '../../../../_kyn/const'
 import fallBackImage from '../../../../_kyn/assest/images/no-image.png'
+import { useMutation } from 'react-query'
+import { cartService } from '../../../services'
 
 export function CartModal(props) {
   const dispatch = useDispatch()
   const cart = useSelector(({ cart }) => cart)
+  const currentUser = useSelector(({auth}) => auth.currentUser)
+  const {data:dataAddItem, mutate: addItem} = useMutation(cartService.addItem)
+  const {data:dataRemoveItem, mutate: remoteItem} = useMutation(cartService.removeItem)
+  const {mutate: submitCart, isLoading: isLoadingSubmit} = useMutation(cartService.submitCart)
+  const {mutate: unSubmitCart, isLoading: isLoadingUnSubmit} = useMutation(cartService.unSubmitCart)
 
-  const handlePlus = number => {
-    console.log('1')
+  const handlePlus = itemId => {
+    const data = {
+      cartId: cart.cart.cartId,
+      customerId: currentUser.userId,
+      itemId: itemId
+    }
+    addItem(data)
   }
 
-  const handleMinute = number => {
-    console.log('2')
+  const handleMinute = itemId => {
+    const data = {
+      cartId: cart.cart.cartId,
+      customerId: currentUser.userId,
+      itemId: itemId
+    }
+    remoteItem(data)
+  }
+
+  const submitOrderHandler = () => {
+    const list_item = cart.cart?.itemsInCart.map(item => ({
+      amount: item.amount,
+      itemId: item.itemId,
+      isDeleted: item.isDeleted
+    }))
+    const orderData = {
+      customerId: currentUser.userId,
+      cartId: cart.cart.cartId,
+      items: list_item
+    }
+    submitCart(orderData)
   }
 
   useEffect(() => {
     dispatch(getExistCart(props.cartInfo))
-  }, [props.isOpen])
-
-  // console.log(cart.cart)
+  }, [props.isOpen, dataAddItem, dataRemoveItem])
 
   return (
     <>
@@ -51,9 +80,6 @@ export function CartModal(props) {
           <ModalHeader>Your cart of {props.shopInfo.name} shop</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <form autoComplete="off" noValidate>
-              {/*<FormAvatarInput initImg={currentUser ? `${CmnConst.BASE_64_PREFIX}${currentUser?.avatar}` : ''}*/}
-              {/*                 label='User Icon' buttonName='Change Icon' onChangeImage={onChangeUserIconHandler} />*/}
               {cart.isLoading && (
                 <Flex justifyContent="center" alignItems="center" h={'100vh'}>
                   <CircularProgress isIndeterminate color="pink.300" />
@@ -94,8 +120,8 @@ export function CartModal(props) {
                         >
                           <NumberInputField disabled opacity="10 !important" />
                           <NumberInputStepper>
-                            <NumberIncrementStepper onClick={handlePlus} />
-                            <NumberDecrementStepper onClick={handleMinute} />
+                            <NumberIncrementStepper onClick={handlePlus.bind(null, cartItem.itemId)} />
+                            <NumberDecrementStepper onClick={handleMinute.bind(null, cartItem.itemId)} />
                           </NumberInputStepper>
                         </NumberInput>
                       </Box>
@@ -103,13 +129,15 @@ export function CartModal(props) {
                   </Flex>
                 </Box>
               ))}
-            </form>
+            <Flex justifyContent={'end'}>
+              <Text mt={2}>Total: {currencyFormatter.format(cart?.cart?.totalPrice )}</Text>
+            </Flex>
           </ModalBody>
 
           <ModalFooter>
             {!cart.isLoading && cart.cart?.itemsInCart?.length > 0 && (
-              <Button colorScheme="pink" mr={3} loadingText="Submitting">
-                Submit
+              <Button colorScheme="pink" mr={3} loadingText="Submitting" onClick={submitOrderHandler}>
+                Order
               </Button>
             )}
             <Button onClick={props.onClose}>Cancel</Button>
