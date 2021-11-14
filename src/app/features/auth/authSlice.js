@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import authService from '../../services/authService'
 import { push } from 'connected-react-router'
-import shopService from '../../services/shopService'
+import { shopService } from '../../services/shopService'
 import { CmnConst } from '../../../_kyn/const'
 import customerService from '../../services/customerService'
 

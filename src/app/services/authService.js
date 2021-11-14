@@ -1,5 +1,5 @@
 import { axiosClient } from '../../setup'
-import shopService from './shopService'
+import { shopService } from './shopService'
 import { CmnConst } from '../../_kyn/const'
 
 const authService = {

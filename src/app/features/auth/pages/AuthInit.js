@@ -3,6 +3,7 @@ import { authActions, logout } from '../authSlice'
 import { useDispatch } from 'react-redux'
 import authService from '../../../services/authService'
 import { CmnConst } from '../../../../_kyn/const'
+import { CircularProgress, Flex } from '@chakra-ui/react'
 
 export default function AuthInit({ children }) {
   const dispatch = useDispatch()
@@ -35,5 +36,7 @@ export default function AuthInit({ children }) {
     // eslint-disable-next-line
   }, [])
 
-  return showSplashScreen ? <p>Loading...</p> : <>{children}</>
+  return showSplashScreen ? <Flex justifyContent='center' alignItems='center' h={'100vh'}>
+    <CircularProgress isIndeterminate color='pink.300' />
+  </Flex> : <>{children}</>
 }
