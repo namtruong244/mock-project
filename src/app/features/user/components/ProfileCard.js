@@ -20,6 +20,7 @@ import { useMutation } from 'react-query'
 import { cartService } from '../../../services'
 import { CartModal, getExistCart } from '../../cart'
 import { useShortenUrl } from 'react-shorten-url'
+import { logout } from '../../auth'
 
 function ProfileCard(props) {
   const { isOpen, onClose, onOpen } = useDisclosure()
@@ -74,7 +75,6 @@ function ProfileCard(props) {
   }
 
   const getShortenLink = () => {
-    // const link = dataShortenLink?.link
     navigator.clipboard.writeText(`${dataShortenLink?.link}`)
   }
 

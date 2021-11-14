@@ -38,8 +38,8 @@ export function CardStore({ store }) {
             <Image
               fallbackSrc={fallBackImage}
               height={{ base: '45vw', md: '25vw', lg: '10vw' }}
-              minW={{ base: '60vw', md: '25vw', lg: '10vw' }}
-              maxW={{ base: '60vw', md: '25vw', lg: '10vw' }}
+              minW={{ base: '60vw', md: '25vw', lg: '16vw' }}
+              maxW={{ base: '60vw', md: '25vw', lg: '16vw' }}
               objectFit="cover"
               src={`${CmnConst.BASE_64_PREFIX}${store.image}`}
               alt={`Picture of ${store.name}`}
