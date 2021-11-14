@@ -13,9 +13,7 @@ export function StoreDetail(props) {
           mt={'10'}
           spacing="30px"
         >
-          {props.products?.length === 0 &&
-            <Text>No product</Text>
-          }
+          {props.products?.length === 0 && <Text>No product</Text>}
           {props.products?.map(item => (
             <Box
               key={item.itemId}
@@ -25,7 +23,11 @@ export function StoreDetail(props) {
                 },
               }}
             >
-              <CardFood item={item}/>
+              <CardFood
+                item={item}
+                deleteProduct={props.deleteProduct}
+                isLoadingDelete={props.isLoadingDelete}
+              />
             </Box>
           ))}
         </SimpleGrid>
