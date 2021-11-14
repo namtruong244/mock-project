@@ -7,7 +7,14 @@ import { Box, CircularProgress, Flex, Stack } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 import { history } from '../../../utils'
 import { StoreDetail } from '../../stores'
-import { Container, Next, PageGroup, Paginator, Previous, usePaginator } from 'chakra-paginator'
+import {
+  Container,
+  Next,
+  PageGroup,
+  Paginator,
+  Previous,
+  usePaginator,
+} from 'chakra-paginator'
 import { CartModal } from '../../cart'
 import ProfileModal from '../components/ProfileModal'
 import { ProductModal } from '../../stores/components/ProductModal'
@@ -16,7 +23,7 @@ import { useToast } from '@chakra-ui/react'
 export default function ProfilePage() {
   const { userId } = useParams()
   const currentUser = useSelector(state => state.auth.currentUser)
-  const { data, isLoading, refetch, isError } = useQuery('profile', () =>
+  const { data, isLoading, refetch, isError, error } = useQuery('profile', () =>
     shopService.getInfoById(userId)
   )
   const {
@@ -32,27 +39,89 @@ export default function ProfilePage() {
     refetch()
   }, [userId, currentUser])
 
-  // useEffect(() => {
-  //   if (deleteData?.errorMessage != ' ') {
-  //     toast({
-  //       title: 'Success',
-  //       description: 'Delete Successful!',
-  //       position: 'top-right',
-  //       status: 'success',
-  //       duration: 3000,
-  //       isClosable: true,
-  //     })
-  //     refetch()
-  //   } else
-  //     toast({
-  //       title: 'Fail',
-  //       description: 'Delete Fail!',
-  //       position: 'top-right',
-  //       status: 'error',
-  //       duration: 3000,
-  //       isClosable: true,
-  //     })
-  // }, [deleteData])
+  useEffect(() => {
+    let status = 'success'
+    let message = 'Delete success'
+    let title = 'Success'
+
+    // console.log('hihi' + deleteData?.errorMessage)
+
+    // if (isError || deleteData?.errorMessage != null || undefined) {
+    //   console.log('hihi' + deleteData?.errorMessage)
+    // toast({
+    //   position: 'top-right',
+    //   title: title,
+    //   description: message,
+    //   status: status,
+    //   duration: 3000,
+    //   isClosable: true,
+    //   })
+    //   refetch()
+    // } else if (deleteData?.successMessage != undefined) {
+    // toast({
+    //   title: 'Fail',
+    //   description: 'Delete Fail!',
+    //   position: 'top-right',
+    //   status: 'error',
+    //   duration: 3000,
+    //   isClosable: true,
+    // })
+    // }
+    if (deleteData != undefined) {
+      toast({
+        position: 'top-right',
+        title: title,
+        description: message,
+        status: status,
+        duration: 3000,
+        isClosable: true,
+      })
+      refetch()
+    } else if (isError) {
+      toast({
+        title: 'Fail',
+        description: 'Delete Fail!',
+        position: 'top-right',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      })
+    }
+    // if (isError || deleteData) {
+    //   toast({
+    //     position: 'top-right',
+    //     title: title,
+    //     description: message,
+    //     status: status,
+    //     duration: 6000,
+    //     isClosable: true,
+    //   })
+    // }
+
+    //
+    // }
+
+    // if (deleteData?.errorMessage != ' ') {
+    //   console.log('deletesuccess')
+    // toast({
+    //   title: 'Success',
+    //   description: 'Delete Successful!',
+    //   position: 'top-right',
+    //   status: 'success',
+    //   duration: 3000,
+    //   isClosable: true,
+    // })
+
+    // } else
+    // toast({
+    //   title: 'Fail',
+    //   description: 'Delete Fail!',
+    //   position: 'top-right',
+    //   status: 'error',
+    //   duration: 3000,
+    //   isClosable: true,
+    // })
+  }, [deleteData, isError])
 
   // constants
   const outerLimit = 2
@@ -102,7 +171,11 @@ export default function ProfilePage() {
   }
 
   return (
-    <Stack direction={{ base: 'column', md: 'row' }} maxW={'1140px'} margin={'0 auto'}>
+    <Stack
+      direction={{ base: 'column', md: 'row' }}
+      maxW={'1140px'}
+      margin={'0 auto'}
+    >
       <ProfileModal />
       <ProductModal />
       <Flex flex={0.5} w={'100%'} mr={4}>
