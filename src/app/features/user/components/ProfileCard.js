@@ -41,7 +41,7 @@ function ProfileCard(props) {
     name: 'Create new cart'
   }
   const cartInfo = {
-    customerId: props.currentUser.userId,
+    customerId: props.currentUser?.userId,
     shopId: props.shopId
   }
 

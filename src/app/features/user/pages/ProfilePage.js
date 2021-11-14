@@ -12,14 +12,6 @@ import { CartModal } from '../../cart'
 import ProfileModal from '../components/ProfileModal'
 import { ProductModal } from '../../stores/components/ProductModal'
 import { useToast } from '@chakra-ui/react'
-import {
-  Container,
-  Next,
-  PageGroup,
-  Paginator,
-  Previous,
-  usePaginator,
-} from 'chakra-paginator'
 
 export default function ProfilePage() {
   const { userId } = useParams()

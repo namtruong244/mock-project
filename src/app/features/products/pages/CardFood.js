@@ -29,7 +29,7 @@ import { productModalActions } from '../../stores'
 import { cartService, productService } from '../../../services'
 import { useMutation } from 'react-query'
 
-export function CardFood({ item }) {
+export function CardFood({ item, isLoadingDelete, deleteProduct }) {
   const { data: dataAddItem , mutate: addItem } = useMutation(cartService.addItem)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const currentUser = useSelector(({ auth }) => auth.currentUser)
@@ -128,7 +128,7 @@ export function CardFood({ item }) {
               >
                 {item.name}
               </Box>
-              {!isShop &&
+              {!isShop && currentUser &&
               <Tooltip
                 label='Add to cart'
                 bg='white'
