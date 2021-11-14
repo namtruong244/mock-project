@@ -2,7 +2,7 @@ import { axiosClient } from '../../setup'
 
 const shopUrl = '/Shop'
 
-const shopService = {
+export const shopService = {
   async getInfoById(shopId) {
     const response = await axiosClient.get(`${shopUrl}/${shopId}`)
     return {
@@ -10,6 +10,7 @@ const shopService = {
       avatar: response.image
     }
   },
+  async getAllShop() {
+    return await axiosClient.get(`${shopUrl}/all`)
+  }
 }
-
-export default shopService

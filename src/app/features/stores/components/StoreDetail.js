@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Box, SimpleGrid } from '@chakra-ui/react'
-import { CardFood } from './CardFood'
+import { Box, SimpleGrid, Text } from '@chakra-ui/react'
+import { CardFood } from '../../products'
 
 export function StoreDetail(props) {
   return (
@@ -13,15 +13,19 @@ export function StoreDetail(props) {
           mt={'10'}
           spacing="30px"
         >
+          {props.products?.length === 0 &&
+            <Text>No product</Text>
+          }
           {props.products?.map(item => (
             <Box
+              key={item.itemId}
               sx={{
                 '@media screen and (max-width: 800px)': {
                   margin: '0 auto',
                 },
               }}
             >
-              <CardFood key={item.itemId} item={item}/>
+              <CardFood item={item}/>
             </Box>
           ))}
         </SimpleGrid>

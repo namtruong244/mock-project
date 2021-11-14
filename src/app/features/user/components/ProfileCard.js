@@ -15,6 +15,7 @@ import { CmnConst } from '../../../../_kyn/const'
 import { useDispatch } from 'react-redux'
 import { profileModalActions } from '../profileModalSlice'
 import { randomInt } from '../../../utils'
+import { productModalActions } from '../../stores'
 
 function ProfileCard(props) {
   const buttonProp = !props.isCurrentUser
@@ -26,6 +27,10 @@ function ProfileCard(props) {
   const dispatch = useDispatch()
   const openProfileModal = () => {
     dispatch(profileModalActions.open())
+  }
+
+  const openProductModal = () => {
+    dispatch(productModalActions.open())
   }
 
   return (
@@ -97,6 +102,22 @@ function ProfileCard(props) {
             >
               {buttonProp.name}
             </Button>
+            {props.isCurrentUser &&
+              <Button
+                w={'full'}
+                mt={3}
+                onClick={openProductModal}
+                bg={useColorModeValue('teal.400', 'gray.900')}
+                color={'white'}
+                rounded={'md'}
+                _hover={{
+                  transform: 'translateY(-2px)',
+                  boxShadow: 'lg',
+                }}
+              >
+                Add New Product
+              </Button>
+            }
           </Box>
         </Box>
       </Center>
