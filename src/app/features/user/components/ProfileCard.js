@@ -15,11 +15,11 @@ import {
 import { CmnConst } from '../../../../_kyn/const'
 import { useDispatch, useSelector } from 'react-redux'
 import { profileModalActions } from '../profileModalSlice'
-import { randomInt } from '../../../utils'
 import { productModalActions } from '../../stores'
 import { useMutation } from 'react-query'
 import { cartService } from '../../../services'
 import { CartModal, getExistCart } from '../../cart'
+import { useShortenUrl } from 'react-shorten-url'
 
 function ProfileCard(props) {
   const { isOpen, onClose, onOpen } = useDisclosure()
@@ -29,6 +29,7 @@ function ProfileCard(props) {
   const isCurrentUser = props.currentUser?.userId === props.shopId
   const dispatch = useDispatch()
   const cart = useSelector(({ cart }) => cart)
+  const { data: dataShortenLink } = useShortenUrl(`${process.env.REACT_APP_SHORTEN_LINK_URL}/${props.shopId}`);
 
   const buttonProp = !isCurrentUser
     ? { color: 'pink.400', name: 'Follow' }
@@ -70,6 +71,11 @@ function ProfileCard(props) {
     } else if (cartButtonProp.type === 'view') {
       onOpen()
     }
+  }
+
+  const getShortenLink = () => {
+    // const link = dataShortenLink?.link
+    navigator.clipboard.writeText(`${dataShortenLink?.link}`)
   }
 
   return (
@@ -147,6 +153,21 @@ function ProfileCard(props) {
             >
               {buttonProp.name}
             </Button>
+            <Button
+              colorScheme="#ed64a6"
+              variant="outline"
+              w={'full'}
+              mt={3}
+              onClick={getShortenLink}
+              color={'#ed64a6'}
+              rounded={'md'}
+              _hover={{
+                transform: 'translateY(-2px)',
+                boxShadow: 'lg',
+              }}
+            >
+              Get shorten link
+            </Button>
             {isCurrentUser && (
               <Button
                 colorScheme="#ed64a6"
@@ -154,7 +175,6 @@ function ProfileCard(props) {
                 w={'full'}
                 mt={3}
                 onClick={openProductModal}
-                // bg={useColorModeValue('teal.400', 'gray.900')}
                 color={'#ed64a6'}
                 rounded={'md'}
                 _hover={{
@@ -167,22 +187,23 @@ function ProfileCard(props) {
             )}
             {props.currentUser &&
               props.currentUser.role === CmnConst.CUSTOMER_ROLE && (
-                <Button
-                  colorScheme="#ed64a6"
-                  variant="outline"
-                  w={'full'}
-                  mt={3}
-                  onClick={cartHandler}
-                  // bg={useColorModeValue('pink.400', 'gray.900')}
-                  color={'#ed64a6'}
-                  rounded={'md'}
-                  _hover={{
-                    transform: 'translateY(-2px)',
-                    boxShadow: 'lg',
-                  }}
-                >
-                  {cartButtonProp.name}
-                </Button>
+                <>
+                  <Button
+                    colorScheme="#ed64a6"
+                    variant="outline"
+                    w={'full'}
+                    mt={3}
+                    onClick={cartHandler}
+                    color={'#ed64a6'}
+                    rounded={'md'}
+                    _hover={{
+                      transform: 'translateY(-2px)',
+                      boxShadow: 'lg',
+                    }}
+                  >
+                    {cartButtonProp.name}
+                  </Button>
+                </>
               )}
           </Box>
         </Box>
