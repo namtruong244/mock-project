@@ -6,7 +6,6 @@ import { Container, Next, PageGroup, Paginator, Previous, usePaginator } from 'c
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { CmnConst } from '../../../../_kyn/const'
-import { useShortenUrl } from 'react-shorten-url'
 
 export function StorePage() {
   const { data, isLoading } = useQuery('shops', shopService.getAllShop)
@@ -23,7 +22,7 @@ export function StorePage() {
     isDisabled,
     pagesQuantity,
     currentPage,
-    setCurrentPage
+    setCurrentPage,
   } = usePaginator({
     total: totalStore,
     initialState: {

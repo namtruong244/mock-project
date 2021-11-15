@@ -3,6 +3,7 @@ import {
   chakra,
   Container,
   IconButton,
+  Image,
   Input,
   Link,
   SimpleGrid,
@@ -10,7 +11,6 @@ import {
   Text,
   useColorModeValue,
   VisuallyHidden,
-  Image
 } from '@chakra-ui/react'
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
 import { BiMailSend } from 'react-icons/bi'
@@ -64,7 +64,7 @@ export default function Footer() {
           spacing={8}>
           <Stack spacing={6}>
             <Box>
-              <Image src={Logo} w={'120px'}/>
+              <Image src={Logo} w={'120px'} />
             </Box>
             <Text fontSize={'sm'}>
               © 2021 Chakra Templates. All rights reserved

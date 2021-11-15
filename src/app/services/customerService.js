@@ -5,7 +5,7 @@ const customerUrl = '/Customer'
 const customerService = {
   async getInfoByPhoneNumber(phoneNumber) {
     return await axiosClient.post(`${customerUrl}/login`, {
-      phoneNumber: phoneNumber
+      phoneNumber: phoneNumber,
     })
   },
 }

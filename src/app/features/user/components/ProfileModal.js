@@ -39,7 +39,7 @@ export default function ProfileModal() {
   const currentUser = useSelector(({ auth }) => auth.currentUser)
   const dispatch = useDispatch()
   const toast = useToast()
-  const phoneNumber = useRef("")
+  const phoneNumber = useRef('')
   const imageFile = useRef(null)
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function ProfileModal() {
       dispatch(fetchUserData({
         phoneNumber: phoneNumber.current,
         userId: currentUser.userId,
-        role: currentUser.role
+        role: currentUser.role,
       }))
     }
 
@@ -77,7 +77,7 @@ export default function ProfileModal() {
     if (isOpen) {
       reset({
         phoneNumber: currentUser?.phoneNumber.replace('0', ''),
-        name: currentUser?.name
+        name: currentUser?.name,
       })
       imageFile.current = null
     }
@@ -87,7 +87,7 @@ export default function ProfileModal() {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm({
     resolver: yupResolver(LoginSchema),
   })
@@ -154,15 +154,15 @@ export default function ProfileModal() {
                 </InputGroup>
                 <FormErrorMessage>{errors.phoneNumber?.message}</FormErrorMessage>
               </FormControl>
-                <FormControl mt={3} id='name' isRequired isInvalid={errors.name}>
-                  <FormLabel>Your name</FormLabel>
-                  <Input
-                    type='text'
-                    defaultValue={currentUser?.name}
-                    placeholder={'Input your name here...'}
-                    {...register('name')}
-                  />
-                  <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
+              <FormControl mt={3} id='name' isRequired isInvalid={errors.name}>
+                <FormLabel>Your name</FormLabel>
+                <Input
+                  type='text'
+                  defaultValue={currentUser?.name}
+                  placeholder={'Input your name here...'}
+                  {...register('name')}
+                />
+                <FormErrorMessage>{errors.name?.message}</FormErrorMessage>
               </FormControl>
             </form>
           </ModalBody>

@@ -10,6 +10,6 @@ export const productService = {
     return await axiosClient.put(`${itemUrl}`, product, { headers: { 'Content-Type': 'multipart/form-data' } })
   },
   async deleteProduct(product) {
-    return await axiosClient.delete(`${itemUrl}`, {data: product})
-  }
+    return await axiosClient.delete(`${itemUrl}`, { data: product })
+  },
 }

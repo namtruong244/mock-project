@@ -1,16 +1,16 @@
 import React from 'react'
-import { SimpleGrid, Box } from '@chakra-ui/react'
+import { Box, SimpleGrid } from '@chakra-ui/react'
 import { CardStore } from './CardStore'
 
-export function StoreList({stores}) {
+export function StoreList({ stores }) {
   return (
     <React.Fragment>
-      <Box maxW={'1140px'} margin="0 auto">
+      <Box maxW={'1140px'} margin='0 auto'>
         <SimpleGrid
           columns={[1, null, 2, 4]}
           mb={'10'}
           mt={'10'}
-          spacing="20px"
+          spacing='20px'
         >
           {stores?.map(store =>
             <Box
@@ -22,7 +22,7 @@ export function StoreList({stores}) {
               }}
             >
               <CardStore store={store} />
-            </Box>
+            </Box>,
           )}
         </SimpleGrid>
       </Box>

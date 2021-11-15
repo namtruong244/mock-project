@@ -3,28 +3,19 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
 import { productService, shopService } from '../../../services'
-import { Box, CircularProgress, Flex, Stack } from '@chakra-ui/react'
+import { Box, CircularProgress, Flex, Stack, useToast } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 import { history } from '../../../utils'
 import { StoreDetail } from '../../stores'
-import {
-  Container,
-  Next,
-  PageGroup,
-  Paginator,
-  Previous,
-  usePaginator,
-} from 'chakra-paginator'
-import { CartModal } from '../../cart'
+import { Container, Next, PageGroup, Paginator, Previous, usePaginator } from 'chakra-paginator'
 import ProfileModal from '../components/ProfileModal'
 import { ProductModal } from '../../stores/components/ProductModal'
-import { useToast } from '@chakra-ui/react'
 
 export default function ProfilePage() {
   const { userId } = useParams()
   const currentUser = useSelector(state => state.auth.currentUser)
   const { data, isLoading, refetch, isError, error } = useQuery('profile', () =>
-    shopService.getInfoById(userId)
+    shopService.getInfoById(userId),
   )
   const {
     data: deleteData,
@@ -142,7 +133,7 @@ export default function ProfilePage() {
     let productSlice = data?.items?.filter(product => product.isActive)
     productSlice = productSlice?.slice(
       (currentPage - 1) * itemPerPage,
-      currentPage * itemPerPage
+      currentPage * itemPerPage,
     )
     setProducts(productSlice)
     setTotalProduct(productSlice?.length)
@@ -150,8 +141,8 @@ export default function ProfilePage() {
 
   if (isLoading) {
     return (
-      <Flex justifyContent="center" alignItems="center" h={'43vh'}>
-        <CircularProgress isIndeterminate color="pink.300" />
+      <Flex justifyContent='center' alignItems='center' h={'43vh'}>
+        <CircularProgress isIndeterminate color='pink.300' />
       </Flex>
     )
   }
@@ -206,9 +197,9 @@ export default function ProfilePage() {
               pagesQuantity={pagesQuantity}
               onPageChange={handlePageChange}
             >
-              <Container align="center" justify="space-between" w="full" p={4}>
+              <Container align='center' justify='space-between' w='full' p={4}>
                 <Previous>Previous</Previous>
-                <PageGroup isInline align="center" />
+                <PageGroup isInline align='center' />
                 <Next>Next</Next>
               </Container>
             </Paginator>

@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   cart: cartReducer,
   profileModal: profileModalReducer,
-  productModal: productModalReducer
+  productModal: productModalReducer,
 })
 
 const middleWare = [

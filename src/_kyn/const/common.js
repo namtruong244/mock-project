@@ -3,5 +3,5 @@ export const CmnConst = {
   SHOP_ROLE: 'Shop',
   CUSTOMER_ROLE: 'Customer',
   OPTIONS_ROLE: ['Shop', 'Customer'],
-  LOCAL_STORAGE_USER : 'user_info'
+  LOCAL_STORAGE_USER: 'user_info',
 }

@@ -1,7 +1,7 @@
 import RegisterForm from '../components/RegisterForm'
 import Auth from '../components/Auth'
 import authService from '../../../services/authService'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useToast } from '@chakra-ui/react'
 import { useMutation } from 'react-query'
 

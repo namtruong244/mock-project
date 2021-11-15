@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   isOpen: false,
-  product: undefined
+  product: undefined,
 }
 
 const productModalSlice = createSlice({

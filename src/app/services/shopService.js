@@ -7,10 +7,10 @@ export const shopService = {
     const response = await axiosClient.get(`${shopUrl}/${shopId}`)
     return {
       ...response,
-      avatar: response.image
+      avatar: response.image,
     }
   },
   async getAllShop() {
     return await axiosClient.get(`${shopUrl}/all`)
-  }
+  },
 }

@@ -10,7 +10,7 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { SmallCloseIcon } from '@chakra-ui/icons'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 
 export default function FormAvatarInput({
                                           label,

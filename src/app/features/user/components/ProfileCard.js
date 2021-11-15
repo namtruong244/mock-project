@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Avatar,
   Box,
@@ -20,33 +20,37 @@ import { useMutation } from 'react-query'
 import { cartService } from '../../../services'
 import { CartModal, getExistCart } from '../../cart'
 import { useShortenUrl } from 'react-shorten-url'
-import { logout } from '../../auth'
+import { CopyToClipboard } from 'react-copy-to-clipboard/lib/Component'
 
 function ProfileCard(props) {
   const { isOpen, onClose, onOpen } = useDisclosure()
   const { data: createCartData, mutate: createCart } = useMutation(
-    cartService.createCart
+    cartService.createCart,
   )
   const isCurrentUser = props.currentUser?.userId === props.shopId
   const dispatch = useDispatch()
   const cart = useSelector(({ cart }) => cart)
-  const { data: dataShortenLink } = useShortenUrl(`${process.env.REACT_APP_SHORTEN_LINK_URL}/${props.shopId}`);
+  const {
+    data: dataShortenLink,
+    loading: loadingCreateShortenLink,
+  } = useShortenUrl(`${process.env.REACT_APP_SHORTEN_LINK_URL}/${props.shopId}`)
+  const [isCopied, setIsCopied] = useState(false)
 
   const buttonProp = !isCurrentUser
     ? { color: 'pink.400', name: 'Follow' }
     : {
-        color: 'pink.400',
-        name: 'Update profile',
-      }
+      color: 'pink.400',
+      name: 'Update profile',
+    }
   const cartButtonProp = cart.cart
     ? {
-        type: 'view',
-        name: 'View cart',
-      }
+      type: 'view',
+      name: 'View cart',
+    }
     : {
-        type: 'create',
-        name: 'Create new cart',
-      }
+      type: 'create',
+      name: 'Create new cart',
+    }
   const cartInfo = {
     customerId: props.currentUser?.userId,
     shopId: props.shopId,
@@ -72,10 +76,6 @@ function ProfileCard(props) {
     } else if (cartButtonProp.type === 'view') {
       onOpen()
     }
-  }
-
-  const getShortenLink = () => {
-    navigator.clipboard.writeText(`${dataShortenLink?.link}`)
   }
 
   return (
@@ -153,25 +153,28 @@ function ProfileCard(props) {
             >
               {buttonProp.name}
             </Button>
-            <Button
-              colorScheme="#ed64a6"
-              variant="outline"
-              w={'full'}
-              mt={3}
-              onClick={getShortenLink}
-              color={'#ed64a6'}
-              rounded={'md'}
-              _hover={{
-                transform: 'translateY(-2px)',
-                boxShadow: 'lg',
-              }}
-            >
-              Get shorten link
-            </Button>
+            <CopyToClipboard text={dataShortenLink?.link}
+                             onCopy={() => setIsCopied(true)}>
+              <Button
+                isLoading={loadingCreateShortenLink}
+                colorScheme='#ed64a6'
+                variant='outline'
+                w={'full'}
+                mt={3}
+                color={'#ed64a6'}
+                rounded={'md'}
+                _hover={{
+                  transform: 'translateY(-2px)',
+                  boxShadow: 'lg',
+                }}
+              >
+                {isCopied ? 'Copied shorten link' : 'Get shorten link'}
+              </Button>
+            </CopyToClipboard>
             {isCurrentUser && (
               <Button
-                colorScheme="#ed64a6"
-                variant="outline"
+                colorScheme='#ed64a6'
+                variant='outline'
                 w={'full'}
                 mt={3}
                 onClick={openProductModal}
@@ -186,25 +189,25 @@ function ProfileCard(props) {
               </Button>
             )}
             {props.currentUser &&
-              props.currentUser.role === CmnConst.CUSTOMER_ROLE && (
-                <>
-                  <Button
-                    colorScheme="#ed64a6"
-                    variant="outline"
-                    w={'full'}
-                    mt={3}
-                    onClick={cartHandler}
-                    color={'#ed64a6'}
-                    rounded={'md'}
-                    _hover={{
-                      transform: 'translateY(-2px)',
-                      boxShadow: 'lg',
-                    }}
-                  >
-                    {cartButtonProp.name}
-                  </Button>
-                </>
-              )}
+            props.currentUser.role === CmnConst.CUSTOMER_ROLE && (
+              <>
+                <Button
+                  colorScheme='#ed64a6'
+                  variant='outline'
+                  w={'full'}
+                  mt={3}
+                  onClick={cartHandler}
+                  color={'#ed64a6'}
+                  rounded={'md'}
+                  _hover={{
+                    transform: 'translateY(-2px)',
+                    boxShadow: 'lg',
+                  }}
+                >
+                  {cartButtonProp.name}
+                </Button>
+              </>
+            )}
           </Box>
         </Box>
       </Center>

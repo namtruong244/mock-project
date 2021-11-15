@@ -6,8 +6,6 @@ import {
   FormErrorMessage,
   FormLabel,
   Input,
-  InputGroup,
-  InputLeftAddon,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -35,8 +33,14 @@ const LoginSchema = Yup.object().shape({
 
 export function ProductModal() {
   const currentProduct = useSelector(({ productModal }) => productModal)
-  const { isLoading, isError, data, error, mutate } = useMutation(currentProduct?.product ? productService.updateProduct : productService.createNewProduct)
-  const currentUser = useSelector(({auth}) => auth.currentUser)
+  const {
+    isLoading,
+    isError,
+    data,
+    error,
+    mutate,
+  } = useMutation(currentProduct?.product ? productService.updateProduct : productService.createNewProduct)
+  const currentUser = useSelector(({ auth }) => auth.currentUser)
   const isOpen = currentProduct.isOpen
   const dispatch = useDispatch()
   const toast = useToast()
@@ -67,7 +71,7 @@ export function ProductModal() {
       dispatch(fetchUserData({
         phoneNumber: null,
         userId: currentUser.userId,
-        role: currentUser.role
+        role: currentUser.role,
       }))
     }
 
@@ -77,7 +81,7 @@ export function ProductModal() {
     if (isOpen) {
       reset({
         name: currentProduct?.product?.name,
-        price: currentProduct?.product?.price
+        price: currentProduct?.product?.price,
       })
       imageFile.current = null
     }
@@ -87,7 +91,7 @@ export function ProductModal() {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm({
     resolver: yupResolver(LoginSchema),
   })
@@ -126,8 +130,9 @@ export function ProductModal() {
           <ModalCloseButton />
           <ModalBody pb={6}>
             <form autoComplete='off' noValidate>
-              <FormAvatarInput initImg={currentProduct?.product?.image ? `${CmnConst.BASE_64_PREFIX}${currentProduct.product.image}` : ''}
-                               label='Product image' buttonName='Change Image' onChangeImage={onChangeUserIconHandler} />
+              <FormAvatarInput
+                initImg={currentProduct?.product?.image ? `${CmnConst.BASE_64_PREFIX}${currentProduct.product.image}` : ''}
+                label='Product image' buttonName='Change Image' onChangeImage={onChangeUserIconHandler} />
               <FormControl mt={3} id='name' isRequired isInvalid={errors.name}>
                 <FormLabel>Product name</FormLabel>
                 <Input

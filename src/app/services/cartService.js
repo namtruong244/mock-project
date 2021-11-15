@@ -20,5 +20,5 @@ export const cartService = {
   },
   async getExistCart(cartInfo) {
     return await axiosClient.post(`${cartUrl}/exist/shop/customer`, cartInfo)
-  }
+  },
 }

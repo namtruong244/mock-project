@@ -2,27 +2,21 @@ import {
   Avatar,
   Box,
   Button,
-  Collapse,
   Flex,
   HStack,
-  Icon,
   IconButton,
+  Image,
   Link,
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
   Stack,
   Text,
-  useBreakpointValue,
   useColorModeValue,
   useDisclosure,
   VStack,
-  Image,
 } from '@chakra-ui/react'
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 import { Link as RouterLink, useHistory } from 'react-router-dom'
@@ -82,7 +76,7 @@ export default function NavBar() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <RouterLink to="/">
+          <RouterLink to='/'>
             <Image src={Logo} w={'120px'} />
           </RouterLink>
         </Flex>
@@ -122,16 +116,16 @@ export default function NavBar() {
           {isLoggedIn && (
             <HStack spacing={{ base: '0', md: '6' }}>
               <IconButton
-                size="lg"
-                variant="ghost"
-                aria-label="open menu"
+                size='lg'
+                variant='ghost'
+                aria-label='open menu'
                 icon={<FiBell />}
               />
               <Flex alignItems={'center'}>
                 <Menu>
                   <MenuButton
                     py={2}
-                    transition="all 0.3s"
+                    transition='all 0.3s'
                     _focus={{ boxShadow: 'none' }}
                   >
                     <HStack>
@@ -141,17 +135,17 @@ export default function NavBar() {
                       />
                       <VStack
                         display={{ base: 'none', md: 'flex' }}
-                        alignItems="flex-start"
-                        spacing="1px"
+                        alignItems='flex-start'
+                        spacing='1px'
                         minW={'50px'}
-                        ml="2"
+                        ml='2'
                       >
-                        <Text fontSize="sm" width={'max-content'}>
+                        <Text fontSize='sm' width={'max-content'}>
                           {currentUser.name}
                         </Text>
                         <Text
-                          fontSize="xs"
-                          color="gray.600"
+                          fontSize='xs'
+                          color='gray.600'
                           textTransform={'capitalize'}
                           fontWeight={'bold'}
                         >

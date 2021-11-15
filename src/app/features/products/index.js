@@ -1,6 +1,2 @@
-export { ViewOrder } from './pages/ViewOrder'
-export { OrderDetail } from './pages/OrderDetail'
-export { CardFood } from './pages/CardFood'
-export { ProductDetail } from './pages/ProductDetail'
-export { ProductUpdate } from './pages/ProductUpdate'
+export * from './components/CardFood'
 export * from './components/Rating'

@@ -36,9 +36,9 @@ export const logout = createAsyncThunk('auth/logout', async () => {
 export const fetchUserData = createAsyncThunk('auth/fetchUserData', async (params, thunkAPI) => {
   try {
     let response
-    if (params.role === CmnConst.SHOP_ROLE){
+    if (params.role === CmnConst.SHOP_ROLE) {
       response = await shopService.getInfoById(params.userId)
-    }else {
+    } else {
       response = await customerService.getInfoByPhoneNumber(params.phoneNumber)
     }
 

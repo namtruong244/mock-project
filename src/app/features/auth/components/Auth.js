@@ -1,14 +1,8 @@
-import {
-  Button,
-  Flex,
-  Heading,
-  Image,
-  Stack,
-  useColorModeValue,
-} from '@chakra-ui/react'
+import { Button, Flex, Heading, Image, Stack, useColorModeValue } from '@chakra-ui/react'
 import { ChevronLeftIcon } from '@chakra-ui/icons'
 import { useHistory } from 'react-router-dom'
 import BackGround from '../../../../_kyn/assest/images/background.jpg'
+
 export default function Auth({ children, heading }) {
   const history = useHistory()
   const backToHomeHandler = () => {
@@ -31,9 +25,9 @@ export default function Auth({ children, heading }) {
             w={'30px'}
             h={'40px'}
             onClick={backToHomeHandler}
-            variant="outline"
-            colorScheme="pink"
-            aria-label="Back to home"
+            variant='outline'
+            colorScheme='pink'
+            aria-label='Back to home'
           >
             <ChevronLeftIcon />
           </Button>
