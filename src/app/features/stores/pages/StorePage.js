@@ -33,12 +33,13 @@ export function StorePage() {
   })
 
   useEffect(() => {
-    let storeSlice = data?.slice((currentPage - 1) * itemPerPage, currentPage * itemPerPage)
+    let storeSlice = data
     if (currentUser?.role === CmnConst.SHOP_ROLE) {
       storeSlice = storeSlice?.filter(store => store.shopId !== currentUser.userId)
     }
+    setTotalStore(storeSlice?.length)
+    storeSlice = storeSlice?.slice((currentPage - 1) * itemPerPage, currentPage * itemPerPage)
     setStores(storeSlice)
-    setTotalStore(data?.length)
   }, [data, currentPage, currentUser])
 
   if (isLoading) {

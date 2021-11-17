@@ -19,9 +19,8 @@ import { CmnConst } from '../../../../_kyn/const'
 import { FormAvatarInput } from '../../../../_kyn/components'
 
 const LoginSchema = Yup.object().shape({
-  phoneNumber: Yup.string().max(20).required('Phone number is required'),
-  name: Yup.string().max(20).required('Your name is required'),
-  // password: Yup.string().max(20).required('Password is required'),
+  phoneNumber: Yup.string().max(10).required('Phone number is required'),
+  name: Yup.string().max(50).required('Your name is required'),
 })
 
 export default function RegisterForm(props) {

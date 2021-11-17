@@ -14,7 +14,7 @@ import { ProductModal } from '../../stores/components/ProductModal'
 export default function ProfilePage() {
   const { userId } = useParams()
   const currentUser = useSelector(state => state.auth.currentUser)
-  const { data, isLoading, refetch, isError, error } = useQuery('profile', () =>
+  const { data, isLoading, refetch, isError } = useQuery('profile', () =>
     shopService.getInfoById(userId),
   )
   const {
@@ -35,29 +35,6 @@ export default function ProfilePage() {
     let message = 'Delete success'
     let title = 'Success'
 
-    // console.log('hihi' + deleteData?.errorMessage)
-
-    // if (isError || deleteData?.errorMessage != null || undefined) {
-    //   console.log('hihi' + deleteData?.errorMessage)
-    // toast({
-    //   position: 'top-right',
-    //   title: title,
-    //   description: message,
-    //   status: status,
-    //   duration: 3000,
-    //   isClosable: true,
-    //   })
-    //   refetch()
-    // } else if (deleteData?.successMessage != undefined) {
-    // toast({
-    //   title: 'Fail',
-    //   description: 'Delete Fail!',
-    //   position: 'top-right',
-    //   status: 'error',
-    //   duration: 3000,
-    //   isClosable: true,
-    // })
-    // }
     if (deleteData != undefined) {
       toast({
         position: 'top-right',
@@ -78,40 +55,7 @@ export default function ProfilePage() {
         isClosable: true,
       })
     }
-    // if (isError || deleteData) {
-    //   toast({
-    //     position: 'top-right',
-    //     title: title,
-    //     description: message,
-    //     status: status,
-    //     duration: 6000,
-    //     isClosable: true,
-    //   })
-    // }
 
-    //
-    // }
-
-    // if (deleteData?.errorMessage != ' ') {
-    //   console.log('deletesuccess')
-    // toast({
-    //   title: 'Success',
-    //   description: 'Delete Successful!',
-    //   position: 'top-right',
-    //   status: 'success',
-    //   duration: 3000,
-    //   isClosable: true,
-    // })
-
-    // } else
-    // toast({
-    //   title: 'Fail',
-    //   description: 'Delete Fail!',
-    //   position: 'top-right',
-    //   status: 'error',
-    //   duration: 3000,
-    //   isClosable: true,
-    // })
   }, [deleteData, isError])
 
   // constants
@@ -131,12 +75,12 @@ export default function ProfilePage() {
 
   useEffect(() => {
     let productSlice = data?.items?.filter(product => product.isActive)
+    setTotalProduct(productSlice?.length)
     productSlice = productSlice?.slice(
       (currentPage - 1) * itemPerPage,
       currentPage * itemPerPage,
     )
     setProducts(productSlice)
-    setTotalProduct(productSlice?.length)
   }, [data, currentPage])
 
   if (isLoading) {

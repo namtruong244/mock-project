@@ -27,7 +27,7 @@ import { productService } from '../../../services'
 import { fetchUserData } from '../../auth'
 
 const LoginSchema = Yup.object().shape({
-  name: Yup.string().max(20).required('Name is required'),
+  name: Yup.string().max(50).required('Name is required'),
   price: Yup.number().required('Price is required'),
 })
 
